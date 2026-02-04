@@ -1,0 +1,35 @@
+:root {
+  --ifm-color-primary: #003057; /* AFRL Blue */
+  --ifm-color-primary-dark: #002b4e;
+  --ifm-color-primary-darker: #00294a;
+  --ifm-color-primary-darkest: #00223d;
+  --ifm-color-primary-light: #003560;
+  --ifm-color-primary-lighter: #003865;
+  --ifm-color-primary-lightest: #004074;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Hide the logo in the top navigation bar */
+.navbar__brand .navbar__logo {
+  display: none;
+}
+
+/* Show the logo in the mobile sidebar (hamburger menu) */
+.navbar-sidebar__brand .navbar__brand .navbar__logo {
+  display: block;
+}
+
+.footer {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
