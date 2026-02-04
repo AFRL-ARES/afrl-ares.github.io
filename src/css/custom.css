@@ -6,6 +6,7 @@
   --ifm-color-primary-light: #003560;
   --ifm-color-primary-lighter: #003865;
   --ifm-color-primary-lightest: #004074;
+  --ifm-link-color: #33bbff
 }
 
 .docusaurus-highlight-code-line {
@@ -26,6 +27,41 @@
 [data-theme='dark'] .breadcrumbs__link:hover {
   color: var(--ifm-color-emphasis-700); /* Use a light grey for hover effect */
 }
+
+/* Use a more visible selection color in dark mode, matching the code block theme. */
+[data-theme='dark'] ::selection {
+  background-color: #44475a;
+  color: #f8f8f2; /* Use a light color for selected text to ensure contrast */
+}
+
+[data-theme='dark'] ::-moz-selection {
+  background-color: #44475a;
+  color: #f8f8f2; /* Use a light color for selected text to ensure contrast */
+}
+
+[data-theme='dark'] .navbar__item {
+  color: white;
+}
+
+[data-theme='dark'] .navbar__link--active {
+  color: #33bbff
+}
+
+[data-theme='dark'] .menu__link--active {
+  color: #33bbff
+}
+
+[data-theme='dark'] .table-of-contents__link--active {
+  color: #33bbff
+}
+
+[data-theme='dark'] .link-item {
+    color: #33bbff
+}
+
+/* [data-theme='dark'] .navbar_item: {
+  background-color: pink;
+} */
 
 /* Ensure primary button text is white for contrast against the dark blue background. */
 .button--primary,
