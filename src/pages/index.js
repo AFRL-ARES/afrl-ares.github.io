@@ -19,9 +19,14 @@ export default function Home() {
         <div className="container" style={{padding: '2rem 0'}}>
             <section>
                 <h2>Quick Start</h2>
-                <p>To get started with the ARES platform, clone the repository and install the dependencies:</p>
+                <p>Interested in looking at the code? Get started by cloning our GitHub repository:</p>
                 <div style={{backgroundColor: '#2d2d2d', color: '#f8f8f2', padding: '15px', borderRadius: '6px', overflowX: 'auto'}}>
-                    <pre style={{margin: 0, background: 'transparent'}}><code>git clone https://github.com/AFRL-ARES/ares-core.git{'\n'}cd ares-core{'\n'}./install.sh</code></pre>
+                    <pre style={{margin: 0, background: 'transparent'}}><code>git clone https://github.com/AFRL-ARES/ARES.git</code></pre>
+                </div>
+
+                <p style={{marginTop: '1.5rem'}}>For users looking to get ARES set up in their lab, we recommend using the <strong>ARES Launcher</strong>. It's the easiest way to get started and handles installation and updates.</p>
+                <div style={{marginTop: '1rem'}}>
+                  <a className="button button--primary" href="https://github.com/AFRL-ARES/ARES-Launcher/releases" target="_blank" rel="noopener noreferrer">Download the ARES Launcher</a>
                 </div>
             </section>
         </div>

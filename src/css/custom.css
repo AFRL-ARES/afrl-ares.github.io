@@ -19,9 +19,18 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* Hide the logo in the top navigation bar */
-.navbar__brand .navbar__logo {
-  display: none;
+/* Make breadcrumb links white in dark mode for readability. */
+[data-theme='dark'] .breadcrumbs__link {
+  color: white;
+}
+[data-theme='dark'] .breadcrumbs__link:hover {
+  color: var(--ifm-color-emphasis-700); /* Use a light grey for hover effect */
+}
+
+/* Ensure primary button text is white for contrast against the dark blue background. */
+.button--primary,
+.button--primary:hover {
+  color: white;
 }
 
 /* Show the logo in the mobile sidebar (hamburger menu) */

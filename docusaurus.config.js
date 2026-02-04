@@ -36,7 +36,8 @@ const config = {
       navbar: {
         logo: {
           alt: 'AFRL-ARES',
-          src: 'img/BlackARESLogo.png',
+          src: '/img/BlackARESLogo.png',
+          srcDark: '/img/ARESLogo.png'
         },
         items: [
           {
