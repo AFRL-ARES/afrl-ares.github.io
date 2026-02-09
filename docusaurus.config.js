@@ -67,7 +67,7 @@ const config = {
           {
             type: 'doc',
             docId: 'athena/intro',
-            label: 'ATHENA',
+            label: 'Educational ARES',
             position: 'left',
           },
         ],
