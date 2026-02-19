@@ -1,20 +1,35 @@
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useColorMode} from '@docusaurus/theme-common';
+
+function HomepageHeader() {
+  const {colorMode} = useColorMode();
+
+  return (
+    <header style={{
+        backgroundColor: colorMode === 'dark' ? '#003057' : 'white',
+        color: colorMode === 'dark' ? 'white' : 'black',
+        padding: '4rem 0',
+        textAlign: 'center'
+      }}>
+        <div className="container">
+          <h1 className="hero__title">Welcome to AFRL-ARES</h1>
+          <img src={useBaseUrl(colorMode === 'dark' ? 'img/ARESLogo.png' : 'img/BlackARESLogo.png')} alt="AFRL-ARES Logo" style={{height: '150px', margin: '1.5rem 0'}} />
+          <p className="hero__subtitle">The central hub for the ARES ecosystem, providing tools for advanced research.</p>
+        </div>
+      </header>
+  );
+}
 
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
+
   return (
     <Layout
       title={`Home`}
       description="AFRL-ARES Organization Home">
-      <header style={{backgroundColor: '#003057', color: 'white', padding: '4rem 0', textAlign: 'center'}}>
-        <div className="container">
-          <h1 className="hero__title">Welcome to AFRL-ARES</h1>
-          <img src={useBaseUrl('img/ARESLogo.png')} alt="AFRL-ARES Logo" style={{height: '150px', margin: '1.5rem 0'}} />
-          <p className="hero__subtitle">The central hub for the ARES ecosystem, providing tools for advanced research.</p>
-        </div>
-      </header>
+      <HomepageHeader />
       <main>
         <div className="container" style={{padding: '2rem 0'}}>
             <section>
