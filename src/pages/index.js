@@ -21,7 +21,7 @@ export default function Home() {
                 <h2>Quick Start</h2>
                 <p style={{marginBottom: '1.5rem'}}>For users looking to get ARES set up in their lab, we recommend using the <strong>ARES Launcher</strong>. It's the easiest way to get started and handles installation and updates.</p>
                 <div style={{marginBottom: '1rem'}}>
-                  <a className="button button--primary" href="https://github.com/AFRL-ARES/ARES-Launcher/releases" target="_blank" rel="noopener noreferrer">Download the ARES Launcher</a>
+                  <a className="button button--primary" href="../../docs/launcher/intro" target="_blank" rel="noopener noreferrer">Learn about the ARES Launcher</a>
                 </div>
                 
                 <p>Interested in looking at the code? Get started by cloning our GitHub repository:</p>

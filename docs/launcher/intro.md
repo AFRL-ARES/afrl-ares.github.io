@@ -1,10 +1,76 @@
+import { useEffect, useState } from 'react';
+
 # ARES Launcher
 
 The ARES Launcher is a utility designed to make installing, running, and managing self‑contained ARES instances simple and reliable.
 
 ## Getting Started
 
-Visit the [Releases](https://github.com/AFRL-ARES/ARES-Launcher/releases) page and download the latest launcher zip for your operating system. Builds are available for **Windows**, **Linux**, and **macOS (arm64)**.
+Visit the [Releases](https://github.com/AFRL-ARES/ARES-Launcher/releases) page or use the buttons below to download the latest launcher for your operating system.
+
+export const DownloadButtons = () => {
+  const [urls, setUrls] = useState({
+    windows: "https://github.com/AFRL-ARES/ARES-Launcher/releases/latest",
+    linux: "https://github.com/AFRL-ARES/ARES-Launcher/releases/latest",
+    macos: "https://github.com/AFRL-ARES/ARES-Launcher/releases/latest"
+  });
+
+  useEffect(() => {
+    fetch("https://api.github.com/repos/AFRL-ARES/ARES-Launcher/releases/latest")
+      .then(res => res.json())
+      .then(data => {
+        if (!data.assets) return;
+        const getUrl = (str) => data.assets.find(a => a.name.toLowerCase().includes(str) && !a.name.toLowerCase().includes("offline"))?.browser_download_url;
+        setUrls({
+          windows: getUrl("windows") || urls.windows,
+          linux: getUrl("linux") || urls.linux,
+          macos: getUrl("macos") || urls.macos
+        });
+      })
+      .catch(console.error);
+  }, []);
+
+  return (
+    <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '1rem'}}>
+      <a className="button button--primary" href={urls.windows}>Download for Windows</a>
+      <a className="button button--primary" href={urls.linux}>Download for Linux</a>
+      <a className="button button--primary" href={urls.macos}>Download for macOS</a>
+    </div>
+  );
+};
+
+export const OfflineDownloadButtons = () => {
+  const [urls, setUrls] = useState({
+    windows: "https://github.com/AFRL-ARES/ARES-Launcher/releases/latest",
+    linux: "https://github.com/AFRL-ARES/ARES-Launcher/releases/latest",
+    macos: "https://github.com/AFRL-ARES/ARES-Launcher/releases/latest"
+  });
+
+  useEffect(() => {
+    fetch("https://api.github.com/repos/AFRL-ARES/ARES-Launcher/releases/latest")
+      .then(res => res.json())
+      .then(data => {
+        if (!data.assets) return;
+        const getUrl = (str) => data.assets.find(a => a.name.toLowerCase().includes(str) && a.name.toLowerCase().includes("offline"))?.browser_download_url;
+        setUrls({
+          windows: getUrl("windows") || urls.windows,
+          linux: getUrl("linux") || urls.linux,
+          macos: getUrl("macos") || urls.macos
+        });
+      })
+      .catch(console.error);
+  }, []);
+
+  return (
+    <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '1rem'}}>
+      <a className="button button--primary" href={urls.windows}>Download Offline (Windows)</a>
+      <a className="button button--primary" href={urls.linux}>Download Offline (Linux)</a>
+      <a className="button button--primary" href={urls.macos}>Download Offline (macOS)</a>
+    </div>
+  );
+};
+
+<DownloadButtons />
 
 After downloading, extract the zip to any folder. Inside, you will find the launcher executable.
 
@@ -34,6 +100,8 @@ chmod +x ARESLauncher
 
 ### Offline Use
 To support users requiring a completely offline installation solution, we provide an additional Offline Launcher for all three major platforms. This version offers the same functionality as the standard launcher but comes pre-packaged with the latest version of ARES. It can be installed without an internet connection, making it ideal for air-gapped environments or locations with restricted network access. These can be found alongside the regular launcher release files.
+
+<OfflineDownloadButtons />
 
 ## Using the Launcher
 
