@@ -23,16 +23,15 @@ These components come together in a **Campaign**, a defined workflow that runs a
 ## Getting Started 
 
 ### For Researchers
-If you want to start running experiments, head to the user guide. Here you'll learn how to:
-* Install ARES using the **Launcher**
-* Set up your first **Device**
-* Run your first **Autonomous Campaign**
+1. Head over to the [the install guide](./install.md) to get your ARES system up and running.
+2. Checkout the [quick start guide](./quickstart.md) to learn how to run your own experiments.
 
 ### For Developers
-If you want to extend ARES with new hardware support or custom algorithms, check out the developer guide.
+Coming Soon!
+<!-- If you want to extend ARES with new hardware support or custom algorithms, check out the developer guide.
 * Learn the ARES Architecture
 * Build a native C# Plugin
-* Understand the gRPC Data Model
+* Understand the gRPC Data Model -->
 
 ## Quick Links
 [Download the ARES Launcher](https://github.com/AFRL-ARES/ARES-Launcher) <br></br>
