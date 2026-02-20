@@ -51,3 +51,7 @@ The new device will now appear in the main list. From here, you can:
 * **Manage:** Use the icons on the right side of the device card to view Info, Edit configuration, access Settings, or Delete the device.
 
 See below for a quick 30 second video demonstrating the steps described above.
+
+<video controls width="100%">
+  <source src="/video/AddingAlicatMFC.mp4" type="video/mp4"/>
+</video>
