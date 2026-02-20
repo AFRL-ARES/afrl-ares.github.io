@@ -6,58 +6,55 @@ title: Building a Campaign
 # Campaign Designer: Building Experiments
 
 ## 1. Introduction
-_Access: Automation -> Campaign Designer_
+*Access: Automation -> Campaign Designer*
 
-The **Campaign Designer** is the workspace for creating **Experiment Templates**.
+The **Campaign Designer** is the workspace for creating **Experiment Templates**. In ARES, you design a single experiment defining the instructions for collecting one data point, and ARES OS automates the repetition of this template to form a **Campaign**.
 
-In ARES, you do not hard-code a 100-iteration loop. Instead, you design a single experiment defining the instructions for collecting one data point. ARES OS then automates the repetition of this template to form a **Campaign**.
+## 2. Creating a New Campaign
+1.  Click the **+** button in the top right of the Campaigns list.
+2.  Click the **Edit** (pencil icon) next to the default name to rename your campaign (e.g., "Close the Loop").
+3.  Click **Save**.
 
-## 2. Core Concepts: The Hierarchy
-To understand the designers, you must understand the ARES workflow:
-1. **The Template:** The blueprint you build here. It defines the logic for _one single iteration_ (e.g. "Move to X, Measure Y"). 
-2. **The Experiment:** A single execution of that Template.
-3. **The Campaign:** The collection of all Experiments run in sequence.
-    * The duration of the Campaign (how many times the Template is repeated) is determined by the **Stop Condition**, which is set later during Execution.
+## 3. Defining Planning Parameters
+The **Parameter Designer** tab defines the variables that the Planner will control.
+1.  Click **Create New Parameter**.
+2.  **Parameter Name:** Give it a unique ID (e.g., `Temperature`).
+3.  **Data Type:** Select the type (e.g., `Number`).
+4.  **Metadata:** Set the Unit (e.g., `Degree Celsius`), Minimum, and Maximum values.
+5.  **Has Initial Value:** Enable this if the first experiment requires a specific starting point.
+6.  **Has Achieved Output:** Toggle this if this parameter is a "goal" value that might not match what you actually achieve. For example, a furnace is told to heat to 150 degrees, but only actually achieves a temperature of 148 degrees.
 
-## 3. Anatomy of a Template
-A complete Template consists of three configurable layers:
+## 4. Designing the Experiment Template
+The **Experiment Template** tab is where you build the sequential logic for a single iteration.
+1.  Click **Add Step** to create a logical block.
+2.  Inside a step, click **Add Command**.
+3.  **Select Device:** Choose the hardware (e.g., `Tube Furnace`).
+4.  **Select Command:** Choose the action (e.g., `SetSetpoint`).
+5.  **Mapping to Parameters:** * To use a dynamic value from your Planner, toggle the **Planned** switch.
+    * Select the corresponding parameter from the dropdown (e.g., `Temperature`).
+6.  **Capturing Output:** To send data to the Analyzer, add a command like `GetCurrentTemperature` and ensure **Provides Output** is enabled.
 
-### A. Planning Parameters (The Inputs)
-These are the variables that change from experiment to experiment.
-* **Role:** They act as placeholders in your script.
-* **Source:** During a Campaign, the **Planner** injects values into these parameters before every new experiment begins.
-* _Example:_ `heater_temp`, `flowrate`, `laser_power`
+## 5. Closing the Loop: Component Assignment
+Once the script is built, you must link the external services that will drive the automation.
 
-### B. The Scripts
-ARES divides the Template into three distinct execution blocks.
+### A. Planning Tab
+ARES distinguishes between **Planning Services** and **Planners**:
+* **Planning Service:** A hosted service (e.g., a Python microservice) that can offer one or more planning algorithms.
+* **Planner:** A specific algorithm or logic type provided by that service (e.g., `Gradual` or `Random`).
 
-#### 1. Startup Script
-**Executes:** ONCE per Campaign (at the very beginning). <br />
-**Purpose:** System Initialization. <br />
-**Use Cases:** Homing, pre-heating, opening a gas valve, etc.
+To assign a planner:
+1.  **Select Service:** Choose your registered Planning Service (e.g., `My Planner (1.0.0)`).
+2.  **Select Planner:** Choose the specific logic type you wish to use for this campaign (e.g., `Gradual Planner`).
+3.  ARES will automatically display the description and parameters managed by that specific selection.
 
-#### 2. Experiment Script
-**Executes:** ONCE per Experiment, repeated as need by ARES. <br />
-**Purpose:** The Core Scientific Logic <br />
-* **The Flow:**
-    1. ARES retrieves new values for your **Planning Parameters** from the Planner (if applicable).
-    2. This script runs using those specific values.
-    3. Data is captured and sent to the Analyzer.
+### B. Analyzer Inputs Tab
+1.  **Select Analyzer:** Choose your registered Analyzer (e.g., `My Analyzer`).
+2.  **Map Inputs:** For each input required by the analyzer, select the corresponding **Experiment Output** from your script (e.g., mapping the Analyzer's "temperature" requirement to the `Setpoint` output of your furnace).
 
-#### 3. Closeout Script
-**Executes:** ONCE per Campaign (at the very end). <br />
-**Purpose:** Safe Shutdown. <br />
-**What triggers the closeout script?**
-* The Stop Condition is met, and the campaign ends normally.
-* The Campaign encounters an error. Even if your experiment fails, ARES will attempt to run your closeout script.
-* The Campaign is stopped forcefully by the user.
-**Use Cases:** Turn off heaters, set flow rates to zero, etc.
+## 6. Saving and Validation
+* **Sequential Logic:** Scripts are executed from top to bottom.
+* **Validation:** The **Save** button in the bottom right will persist your changes. If you reference a parameter in your script that hasn't been defined or mapped, the system will alert you.
 
-### C. Component Assignment
-You must link the logic modules that will drive your Campaign loop.
-* **The Planner:** The "Navigator." It decided the parameter values for the next experiment based on previous results.
-* **The Analyzer:** The "Interpreter." It processes raw data from the current experiment and passes a score back to ARES.
-
-## 4. Building the Script
-* **Logic Flow:** Scripts are executed sequentially from top to bottom.
-* **Validation:** The designer prevents saving if required components (Analyzers/Planners) are referenced in the script but not assigned in the component tab.
+<video controls width="100%">
+  <source src="/video/campaign-construction.mp4" type="video/mp4"/>
+</video>
