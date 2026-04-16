@@ -58,7 +58,7 @@ def set_speed(rpm: float):
 
 def get_status():
     # Return a dictionary matching your state schema
-    return { "rpm": 1200 } 
+    return 1200
 
 def safe_mode():
     print("Stopping motor immediately!")
