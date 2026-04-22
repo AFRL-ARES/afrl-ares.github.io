@@ -35,7 +35,27 @@ This service is the main wrapper for your planners, giving you the bridge to con
 
 #### Objects
 `PlanRequest`
-* `request.parameters`: A list of parameters involved in the experiment (including their allowed range, history, and initial values if applicable)
+* `parameters` (List[PlanningParameter]): A list of parameters involved in the experiment (including their allowed range, history, and initial values if applicable)
+    * `name` (str): The name associated with this parameter, as assigned in ARES.
+    * `minimum_value` (float): The minimum value the parameter is capable of being assigned.
+    * `maximum_value` (float): The maximum value the parameter is capable of being assigned.
+    * `param_histroy` (List[ParameterHistoryItem]): A list of `ParameterHistoryItem` providing historical planned and achieved values associated with the parameter.
+        * `planned_value` (Any): The value returned by the planner for this run.
+        * `achieved_value` (Any): The value actually achieved by the experiment.
+    * `data_type` (AresDataType): An AresDataType representing what kind of data this parameter is. Common examples are NUMBER and STRING.
+    * `is_planned` (bool): Represents whether this parameter is designed to be planned for (often unused).
+    * `is_result` (bool): Represents whether this parameter is the intended result of the experiment (often unused).
+    * `planner_name` (str): The name of the planner this variable is to be planned by. In the case you have a single planner service hosting multiple planner options, utilize this string to match to the correct planner in your service.
+    * `initial_value` (Any): An optional value that can be provided through the ARES UI, this allows the user to set the very first value they wish to use in their planner, however it is up to your planner to utilize this field.
+* `settings` (Dict): This is a dictionary that contains the current settings requested for your analyzer. If for instance if you have a setting called "seed" you could access it by calling `request.settings.get("seed")` (Note: you could access this item directly via `request.settings["seed"]`, however the get method is safer and generally best practice).
+* `analysis_results` (List[float]): This is a list of floats representing the previous responses from your analyzer (if any). This list will be empty if no previous analysis requests have been processed. These analysis results are paired with previous parameters via indexing, so for instance the first index of this results list will be the analysis result matching the first index of all your parameters historical values.
+* `request_metadata` (RequestMetadata): This object passes basic data about the request and the context around it for your use.
+    * `system_name` (str): This is the name associated with the system sending this request (likely ARES).
+    * `campaign_name` (str): The name of the running campaign that requested this plan.
+    * `campaign_id` (str): The unique ID of the campaign that requested this plan.
+    * `experiment_id` (str): The unique ID of the experiment that request this plan.
+    * `experiment_start_time` (str): The start time of the current experiment, as reported by ARES.
+
 
 `PlanResponse(names, values)`
 * You return a paired list of parameter names and their new target values.
