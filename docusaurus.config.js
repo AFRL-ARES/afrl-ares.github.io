@@ -74,7 +74,7 @@ const config = {
       },
       footer: {
         style: 'dark',
-        copyright: `Developed by the Air Force Research Laboratory (AFRL). Licensed under the MIT License.`,
+        copyright: `Developed by the Air Force Research Laboratory (AFRL). Licensed under the MIT License. Distribution A. Approved for public release: distribution unlimited. AFRL-2025-5329`,
       },
       prism: {
         theme: lightCodeTheme,
