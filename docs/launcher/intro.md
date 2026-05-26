@@ -181,3 +181,7 @@ Your custom repository must:
 If switching repositories while an instance is already installed, update the binary path and database path to prevent conflicts.
 
 If the custom repository is private, you can supply a GitHub token with **read** access to fetch releases.
+
+## Contributing
+
+If you are interested in contributing changes to the ARES Launcher, please refer to the [ARES Contributing Guidelines Page](https://afrl-ares.github.io/docs/ares/contributing) for more information.
