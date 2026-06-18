@@ -23,8 +23,7 @@ We have broken this down into two parts:
  2. **The Ares Service:** The wrapper that exposes that device to ARES OS.
 
 ```Python
-import time
-from PyAres import AresDeviceService, AresDataType, DeviceSchemaEntry, DeviceCommandDescriptor
+from PyAres import *
 
 # --- PART 1: The Simulated Hardware ---
 class VirtualHotplate:
@@ -34,13 +33,16 @@ class VirtualHotplate:
     def set_temperature(self, temp: float):
         """Simulates setting the heater."""
         print(f"[Hardware] Heating to {temp}°C...")
+        response = DeviceCommandResponse(None, status_code=StatusCode.COMMAND_SUCCESS)
         self.target_temp = temp
-        return {} # Return empty dict if no data needs to be sent back
+        return response
 
     def get_temperature(self):
         """Simulates reading the sensor."""
+        response = DeviceCommandResponse({ "current_temp": self.target_temp }, status_code=StatusCode.COMMAND_SUCCESS)
         # In a real device, you'd read a serial port here.
-        return { "current_temp": self.target_temp }
+        print("[Hardware] Retrieving the current temperature...")
+        return response
 
     def get_state(self):
         """Required: Tells ARES the current status for logging."""
@@ -60,9 +62,9 @@ if __name__ == "__main__":
     service = AresDeviceService(
         my_hotplate.safe_mode,
         my_hotplate.get_state,
-        "My Virtual Hotplate",    # Device Name
+        "My Virtual Hotplate",      # Device Name
         "A simulated lab hotplate", # Description
-        "1.0.0"                   # Version
+        "1.0.0"                     # Version
     )
 
     # 3. Define Command: Set Temperature
@@ -79,9 +81,19 @@ if __name__ == "__main__":
     service.add_new_command(set_cmd, my_hotplate.set_temperature)
 
     # 4. Define Command: Get Temperature
-    # This schema tells ARES to expect a number back
+    # This schema tells ARES to expect a struct back
     output_schema = {
-        "current_temp": DeviceSchemaEntry(AresDataType.NUMBER, "Current Temperature", "Celsius")
+        "output": DeviceSchemaEntry(
+            AresDataType.STRUCT,
+            "Current temperature output",
+            struct_schema={
+                "current_temp": DeviceSchemaEntry(
+                    AresDataType.NUMBER,
+                    "Current Temperature",
+                    "Celsius"
+                )
+            }
+        )
     }
     get_cmd = DeviceCommandDescriptor(
         "Get Temp", 

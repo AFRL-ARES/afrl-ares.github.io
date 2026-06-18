@@ -12,15 +12,23 @@ When defining task parameters, operation inputs, or parsing responses from the A
 from PyAres import AresDataType
 
 class AresDataType(Enum):
-    UNKNOWN = 0
-    NULL = 1
-    BOOLEAN = 2
-    STRING = 3
-    NUMBER = 4
-    STRING_ARRAY = 5
-    NUMBER_ARRAY = 6
-    BYTE_ARRAY = 7
-    BOOL_ARRAY = 8
+  UNKNOWN = 0
+  NULL = 1
+  BOOLEAN = 2
+  STRING = 3
+  NUMBER = 4
+  STRING_ARRAY = 5
+  NUMBER_ARRAY = 6
+  LIST = 7
+  STRUCT = 8
+  BYTE_ARRAY = 9
+  ANY = 10
+  UNIT = 11
+  FUNCTION = 12
+  QUANTITY = 13
+  TIMESTAMP = 14
+  FLOAT = 15
+  INT = 16
 ```
 
 ## Usage Guidelines
@@ -56,7 +64,6 @@ def safe_mode():
 def set_temperature(temp_value: int):
   # Logic to set temperature
   pass
-
 
 if __name__ == "__main__":
   # Basic information about my device
@@ -104,6 +111,41 @@ if __name__ == "__main__":
 
 ```
 
+## Physical Quantities & Unit Management
+PyAres includes robust support for scientific physical units using `AresDataType.QUANTITY`. This integrates with the `pint` physical units registry library to handle bounds, types, and automated unit scale conversions.
+
+### `Quantity`
+A container for scaled physical data:
+* `scalar` (float): The actual value.
+* `unit` (str): The unit representation string (e.g., `"degree_Celsius"`, `"psi"`, `"ml/min"`).
+
+### `QuantitySchema`
+Metadata used when defining a device command or planner parameter input that expects physical units:
+* `bounds_unit` (pint.Unit): The base unit for validation bounds.
+* `min_scalar_value` (float): The minimum allowable scalar value in terms of the `bounds_unit`.
+* `max_scalar_value` (float): The maximum allowable scalar value in terms of the `bounds_unit`.
+
+### `Limits`
+For numeric bounds that aren't unit-backed, use the `Limits(minimum, maximum)` object to safely constrain values.
+
+### Example: Defining a Unit-Validated Command
+```python
+import pint
+from PyAres import AresDeviceService, AresDataType, DeviceSchemaEntry, DeviceCommandDescriptor, QuantitySchema
+
+ureg = pint.UnitRegistry()
+
+# Define a temperature parameter between 40C and 125C
+quantity_schema = QuantitySchema(ureg.degree_Celsius, 40.0, 125.0)
+parameter_schema = DeviceSchemaEntry(
+    AresDataType.QUANTITY, 
+    "A numeric temperature value", 
+    quantity_schema=quantity_schema
+)
+
+input_schema = { "temperature": parameter_schema }
+descriptor = DeviceCommandDescriptor("Set Temperature", "Sets device temperature.", input_schema, {})
+```
 
 ## Internal Protobuf Mapping
 For advanced users debugging raw packets: This Python Enum maps 1:1 with the AresValue message type definition in the ARES .proto files. AresDataType ensures that when PyAres serializes data, it packs the value into the correct oneof field in the Protobuf message structure.
