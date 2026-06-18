@@ -159,9 +159,10 @@ When a new ARES release is published with a higher version number, the launcher 
 * Download and extract the new release bundle
 * Apply any database migrations
 
-**Always back up your database before updating ARES.**
+If you choose to downgrade your ARES version, the launcher will check for an existing database snapshot for that version. If a snapshot is found, you will be prompted to restore it; if not, the database will be reset to avoid compatibility issues. **Always back up your database before updating or downgrading ARES.**
 
-The launcher does *not* automatically update itself. If you encounter a launcher‑specific issue, check its Releases page for a newer version.
+### Launcher Updates
+The launcher can now check for updates to itself automatically! If a new version of the launcher is detected, a notification button will appear. Clicking it will automatically download the new launcher, stage it, and relaunch without requiring you to manually navigate to the Releases page.
 
 ## Custom ARES Repositories
 
