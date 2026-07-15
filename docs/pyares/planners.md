@@ -1,6 +1,6 @@
 ---
-sidebar_position: 5
-title: Planners
+sidebar_position: 4
+title: 🧠 Planners
 ---
 
 # Creating Planners

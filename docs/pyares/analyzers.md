@@ -1,10 +1,10 @@
 ---
-sidebar_position: 4
-title: Analyzers
+sidebar_position: 5
+title: 🔍 Analyzers
 ---
 
 # Creating Analyzers
-Analyzers are the eyes of your laboratory. They take raw data such as images from a camera or logs from a sensor and process them to determine the result of an experiment.
+Analyzers are the eyes of your laboratory. They take raw data (can include data from a planner) such as images from a camera or logs from a sensor and process them to determine the result of an experiment.
 
 ## The Core Concept
 An Analyzer sits in the loop to answer the question: "_Did this experiment work, and what was the result?_"

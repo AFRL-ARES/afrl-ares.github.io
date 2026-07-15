@@ -20,7 +20,7 @@ PyAres functions as a microservice framework. Communications between your Python
 * **Distributed Capable:** PyAres services do not need to run on the same machine as the ARES core. You can host computationally heavy services (e.g. machine vision models) on a dedicated GPU machine wile ARES runs on the main control PC.
 
 # Core Components
-You can build three types of extensions using PyAres:
+✨ You can build three types of services/extensions/components using PyAres:
 
 **1. Planners** <br></br>
 Planners define the decision-making logic for "Self-Driving" loops.
@@ -41,21 +41,18 @@ Devices provide the interface between ARES and physical hardware.
 * **Use Case:** Integrating a custom sensor, a serial device, or a specialized camera using Python drivers.
 
 # Integration Workflow
-PyAres uses a manual registration model to ensure reliability in complex network environments.
+PyAres uses a manual registration model for services to ensure reliability in complex network environments. Below we'll describe the process for a "Device" service. But the proicess is very similar for the other services listed [core services](#Core-Components)
 1. **Launch Service** Start your PyAres script (e.g., `python my_device.py`). It will listen on a specific address (e.g. `http://localhost:7800`).
 2. **Register in ARES**
     * Navigate to the **Settings** menu in ARES OS.
-    * In the Device tab, select "Remote Device".
+    * In the Device tab, select "Remote".
     * Press the small "plus" button on the right side of your screen.
     * Input the name and Address (IP and Port) of your running Python service.
 3. **Persistence**: ARES saves this configuration to its database. On subsequent startups, ARES will automatically attempt to reconnect to the registered address and handshake with your Python service to retrieve its capabilities.
 
+Once registered, you can now connect and control new hardware, making your implementations ARES ready as a PyAres Device.
+
 # Getting Started
-To install the library:
+To install the library, see [installation](./install.md)
 
-```Bash
-pip install PyAres
-```
 Check the sidebar for detailed guides on build your first Planner, Analyzer or Device.
-
-    

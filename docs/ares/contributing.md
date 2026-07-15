@@ -11,29 +11,18 @@ Whether you are a scientist looking to integrate an experimental setup or a deve
 
 ---
 
-## The ARES Ecosystem
-
-ARES is highly modular. Before contributing, it is helpful to know which part of the ecosystem you are working with:
-
-* **[ARES OS](https://github.com/AFRL-ARES/ARES):** The core orchestration engine. Written in C#/.NET with a Blazor frontend, it handles the registration of devices, planners, and analyzers as well as workflow execution.
-* **[ARES Launcher](https://github.com/AFRL-ARES/ARES-Launcher):** The desktop management hub that simplifies installation, version management, and database management.
-* **[PyAres](https://github.com/AFRL-ARES/PyAres):** Our official Python library, designed to make scientific integration as seamless as possible for researchers.
-* **[Educational ARES](https://github.com/AFRL-ARES/Educational-ARES):** A specialized, low-cost version of ARES for educational environments, built around autonomous 3D printing (e.g., Prusa MK4S).
-* **[ARES-Datamodel](https://github.com/AFRL-ARES/ARES-datamodel):** The source of truth for communication. It contains the Protobuf and gRPC definitions that power our language-agnostic plugin architecture.
-
-
----
-
 ## Contribution Pathways
 
 Depending on what you are building, the process for sharing your work with the community looks a bit different.
 
 ### 1. Plugins (Device Drivers, Planners, Analyzers)
+
 Because ARES uses a highly decoupled, "Plugin-First" architecture, custom hardware drivers, AI planners, and data analysis routines **do not need to be merged into the core ARES repositories**. You can develop and host these tools entirely on your own. 
 
 If you have built a device driver, planner, or analyzer that you believe would be valuable to the wider ARES community, you don't need to submit a pull qequest. Instead, we want to feature it! **Please email a member of our team** (see [Contact & Support](#contact--support) below) to discuss adding your plugin to our official list of supported ARES tools.
 
 ### 2. Core Development (ARES OS, PyAres, Datamodel)
+
 If you are fixing a bug, adding a core feature to the orchestration engine, updating the Python library, or modifying the datamodel, you will follow a standard open-source GitHub workflow. You will fork the relevant repository, test your changes locally, and submit a Pull Request (see the [Submitting Core Contributions](#submitting-core-contributions) section below).
 
 ---
@@ -54,33 +43,20 @@ When opening an issue, please include the following depending on your context:
 
 ## Getting Started
 
-Depending on the repository you are contributing to, you will need slightly different local setups. 
-
-### Prerequisites
-* **For ARES OS & Plugins:** .NET 10 SDK and an IDE like Visual Studio, JetBrains Rider, or VS Code.
-* **For PyAres:** Python 3.10+ and your preferred Python environment manager.
-* **For Datamodel Changes:** Ensure you have the Protocol Buffer Compiler (`protoc`) installed if you are generating custom gRPC classes manually.
-* **Git:** For version control.
+Depending on the repository you are contributing to, you will need slightly different local setups. See the repos readme and their coresponding documentation page on the documentation site.  
+After following the local setup, check out the [Developer Guide](./developer-setup.md).
 
 ### Local Setup
 
 1. **Fork the relevant repository** from the [AFRL-ARES GitHub Organization](https://github.com/AFRL-ARES).
 2. **Clone your fork** locally:
+
    ```bash
    git clone [https://github.com/YOUR-USERNAME/REPOSITORY-NAME.git](https://github.com/YOUR-USERNAME/REPOSITORY-NAME.git)
    cd REPOSITORY-NAME
    ```
-3. **Follow the repository-specific README** for instructions on building and running the project locally.
 
----
-
-## Development Philosophy
-
-ARES is built with a **"Plugin-First"** philosophy. 
-
-* **Keep it Modular:** New hardware integrations, planners, or analysis tools should be developed as plugins rather than tightly coupled into ARES OS.
-* **gRPC & Protobuf:** We leverage gRPC for high-performance, scalable communication. If your contribution requires changes to how plugins communicate with the core OS, those changes *must* start in the `ARES-datamodel` repository. 
-* **Language-Agnostic Design:** Remember that ARES connects C#/.NET environments with Python data science stacks. Maintain clean, standardized API contracts.
+3. **Follow the repository-specific documentaion and README** for instructions on building and running the project locally.
 
 ---
 
@@ -89,16 +65,22 @@ ARES is built with a **"Plugin-First"** philosophy.
 We use a standard GitHub Pull Request (PR) workflow. 
 
 1. **Create a Feature Branch:** Always branch off of `main` for your work. Use descriptive names like `feat/add-modbus-driver` or `fix/exeuction-ui-bug`. <br />
+
    ```bash
    git checkout -b feat/your-feature-name
    ```
+
 2. **Write Clean, Documented Code:** Ensure your code follows the style conventions of the respective language (e.g., PEP 8 for Python, standard C# naming conventions). 
 3. **Commit your Changes:** Write clear, concise commit messages. 
 4. **Push to your Fork:**
+
    ```bash
    git push origin feat/your-feature-name
    ```
+
 5. **Open a Pull Request:** Open a PR against the `main` branch of the original AFRL-ARES repository. 
+
+Think about and determine if your changes need to be officially in the documentation. If they need to, then see [Documentation Contribution](../intro.md#Contributtions)
 
 ### Pull Request Guidelines
 
@@ -115,6 +97,7 @@ ARES is open-source and primarily licensed under the **MIT License**. By contrib
 ---
 
 ## Clearance
+
 **ARES Clearance:** Distribution A. Approved for public release: distribution unlimited. AFRL-2025-5329 <br />
 **PyAres Clearance:** Distribution A. Approved for public release: distribution unlimited. AFRL-2025-5332.
 
