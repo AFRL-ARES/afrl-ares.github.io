@@ -22,7 +22,7 @@ Arguments required to create an instance of the service:
 * `version` (str): The version of your analyzer.
 * `description` (str): A brief description of your analyzer.
 * `timeout` (int): The amount of time, in seconds, ARES will wait to receive a response from this service. Defaults to 30.
-* `use_localhost` (bool): If true, binds to localhost. Otherwise binds to [::]
+* `use_localhost` (bool): If true, binds to localhost. Otherwise binds to [::], which is all IP addresses that exist on the computer the serrvicec is running on.
 * `port` (int): The port your analyzer service will serve on. Defaults to port 7083.
 * `max_message_size` (int): The max size, in megabytes, of the messages your Analysis service is capable of sending and receiving. Increasing this can help transfer large amounts of data for things like images, but may result in some loss in performance. 
 
