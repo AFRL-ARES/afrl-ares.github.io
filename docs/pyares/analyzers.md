@@ -1,10 +1,10 @@
 ---
-sidebar_position: 4
-title: Analyzers
+sidebar_position: 5
+title: 🔍 Analyzers
 ---
 
 # Creating Analyzers
-Analyzers are the eyes of your laboratory. They take raw data such as images from a camera or logs from a sensor and process them to determine the result of an experiment.
+Analyzers are the eyes of your laboratory. They take raw data (can include data from a planner) such as images from a camera or logs from a sensor and process them to determine the result of an experiment.
 
 ## The Core Concept
 An Analyzer sits in the loop to answer the question: "_Did this experiment work, and what was the result?_"
@@ -22,7 +22,7 @@ Arguments required to create an instance of the service:
 * `version` (str): The version of your analyzer.
 * `description` (str): A brief description of your analyzer.
 * `timeout` (int): The amount of time, in seconds, ARES will wait to receive a response from this service. Defaults to 30.
-* `use_localhost` (bool): If true, binds to localhost. Otherwise binds to [::]
+* `use_localhost` (bool): If true, binds to localhost. Otherwise binds to [::], which is all IP addresses that exist on the computer the serrvicec is running on.
 * `port` (int): The port your analyzer service will serve on. Defaults to port 7083.
 * `max_message_size` (int): The max size, in megabytes, of the messages your Analysis service is capable of sending and receiving. Increasing this can help transfer large amounts of data for things like images, but may result in some loss in performance. 
 

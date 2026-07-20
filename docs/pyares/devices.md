@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: Devices
+title: 💻 Devices
 ---
 
 # Creating Devices
@@ -26,7 +26,7 @@ Arguments required to create an instance of the service:
 * `device_name` (str): The name of your device.
 * `description` (str): A brief description of your device.
 * `version` (str): The version associated with your device implementation.
-* `use_localhost` (bool): An optional value that allows the user to specify whether to host the service on the local network. _Defaults to True._
+* `use_localhost` (bool): An optional value that allows the user to specify whether to host the service on the local network or remote(if remote, it'll listen to all addresses). _Defaults to True._
 * `port` (int): The port that your device service will serve on. _Defaults to port 7100._
  
 This service is the main wrapper for your device, giving you the bridge to connect your hardware to ARES.

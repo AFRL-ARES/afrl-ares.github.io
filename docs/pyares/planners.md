@@ -1,6 +1,6 @@
 ---
-sidebar_position: 5
-title: Planners
+sidebar_position: 4
+title: 🧠 Planners
 ---
 
 # Creating Planners
@@ -18,7 +18,7 @@ Arguments required to create an instance of the service:
 * `service_description` (str): A brief description of your planner service.
 * `service_version` (str): The version associated with your planner service.
 * `timeout` (int): The amount of time, in seconds, ARES will wait to receive responses from your planner service. Defaults to 30.
-* `use_localhost` (bool): An optional value that allows the user to specify whether to host the service on the local network. _Defaults to True._
+* `use_localhost` (bool): An optional value that allows the user to specify whether to host the service on the local network or remote(if remote, it'll listen to all addresses). _Defaults to True._
 * `port` (int): The port that your planner service will serve on. _Defaults to port 7082._
 * `max_message_size` (int): The max size, in megabytes, of the messages your planning service is capable of sending. Increasing this can help transfer heavy data like images, but may result in some loss in performance.
 
