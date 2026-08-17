@@ -43,6 +43,11 @@ export default function Home() {
                 <div style={{backgroundColor: '#2d2d2d', color: '#f8f8f2', padding: '15px', borderRadius: '6px', overflowX: 'auto'}}>
                     <pre style={{margin: 0, background: 'transparent'}}><code>git clone https://github.com/AFRL-ARES/ARES.git</code></pre>
                 </div>
+                <p>Then checkout our developer setup guide:</p>
+                <div style={{marginBottom: '1rem'}}>
+                  <a className="button button--primary" href="../../docs/ares/developer-setup" target="_blank" rel="noopener noreferrer">ARES Developer Setup</a>
+                </div>
+
             </section>
         </div>
       </main>

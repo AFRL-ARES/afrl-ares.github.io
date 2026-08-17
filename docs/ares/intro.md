@@ -5,7 +5,7 @@ title: Introduction
 
 # Welcome to ARES OS 2.0
 
-**ARES OS (Autonomous Research System)** is a cross-platform operating system designed to automate the scientific method. It serves as the center piece for self-driving laboratories, closing the loop between **Execution** (Robots/Hardware), **Analysis** (Sensors/AI), and **Planning** (Decision Algorithms).
+**ARES OS** is a cross-platform orchestration software designed to automate the scientific method. It serves as the center piece for self-driving laboratories, closing the loop between **Execution** (Robots/Hardware), **Analysis** (Sensors/AI), and **Planning** (Decision Algorithms).
 
 ## Why ARES?
 
@@ -13,8 +13,8 @@ Traditional lab automation is often rigid, scripted specifically for one machine
 
 - **Modular:** Swap out a planner or a device without rewriting your entire experiment.
 - **Cross-Platform:** Runs natively on Windows, Linux, and macOS.
- -- **C#** Native: Core components run in high-performance.
- -- **Python Friendly:** you can integrate hardware and logic using **Python** (via PyAres).
+  - **C# Native**: Core components run in our high-performance C# software. 
+  - **Python Friendly:** Integrate with hardware and create planners and analyzers using **Python** (via PyAres).
 
 ## Core Concepts
 

@@ -7,7 +7,7 @@ ARES OS is designed to be cross-platform, running natively on **Windows**, **mac
 
 ## Method 1: The ARES Launcher (Recommended)
 
-For most users, the **ARES Launcher** is the easiest way to install and maintain the system. It handles version management, updates and ensuring the correct runtime environment.
+For most users, the **ARES Launcher** is the easiest way to install and maintain the system. It handles version management, updates, and ensuring the correct runtime environment.
 
 1. **Download:** Navigate to the [ARES Launcher Releases](https://github.com/AFRL-ARES/ARES-Launcher/releases) page and download the installer for your operating system.
 
@@ -53,14 +53,14 @@ The ARES Launcher also supports pulling updates for your ARES system. See the [U
   dotnet build
   ```
 
-  Note: If initial build fails, try building again as some thing won't exist until building the first time.
+  Note: If initial build fails, try building a second time. The ARES project creates some required items at build time, which can cause some errors when building a fresh clone.
 
 4. **Setup the database**  
 
   a. *Configure the Database*
     - nagigate and open to `UI\appsetting.UI.json`
-    - Edit the "DatabaseProvider" value to whichever providor you choose that we support (See [Database Options](#database-providers)).
-    - Edit the "ConnectionStrings" sections depending on the provider you're using to use the right values you set, depending on how you setup the database provider (dont worry about this if you didnt/dont wanna use a different provider as thigns work as is with the default of everything).  
+    - Edit the "DatabaseProvider" value to whichever provider you choose from our list of supported (See [Database Options](#database-providers)).
+    - Edit the "ConnectionStrings" sections based on the provider you're using. Each provider has slightly different syntax for connection strings, please see those providers documentation for assistance with connection strings. If you would like to use the default sqlite option, you may leave these settings as they appear.  
 
   b. *Initialize Database*
 
@@ -77,15 +77,15 @@ dotnet run --project .\UI\UI.csproj
 6. **Navigate to the UI**  
 Open a browser of your choice and navigate to [https://localhost:7084](https://localhost:7084). If you've started ARES successfully, this will open the ARES Dashboard.
 
-    - You can change the default URL you can use to the port of choice by editing the "ARES\UI\Properties\launchSettings.json" file. Under the "profiles"/"UI"/"applicationUrl", edit the port value you want to use. Then you restart the application and go to that new URL.
+    - You can use your port of choice by editing the "ARES\UI\Properties\launchSettings.json" file. Under the "profiles"/"UI"/"applicationUrl", edit the port value to match the port you want to use, then you restart the application. ARES will then be hosted on that new URL.
 
-When setting up in an IDE, youll want to run the "UI" project when running/debugging as seen in the in step 6, as it's the project we run there.
+When setting up in an IDE, run the "UI" project when running/debugging as seen in the in step 6.
 
 ### Configuration Notes
 
 #### System App Settings
 
-The main system app settings is located/created at "ARES\UI\appsettings.UI.json". This contains settings we use to load/run ARES when developing.
+The main system app settings is located at "ARES\UI\appsettings.UI.json". This contains settings we use to load/run ARES when developing.
 
 #### Database Providers
 
