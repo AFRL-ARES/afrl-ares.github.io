@@ -7,13 +7,13 @@ title: 🧠 Planners
 Planners are the brain of your laboratory. They reside at the top of the loop, deciding _what to do next_ based on previous results.
 
 ## The Core Concept
-A Planner is responsible for choosing your next experiment parameters. It received the current parameter space (min/max constraints) and generates the specific settings for the next experiment iteration.
+A Planner is responsible for choosing your next experiment parameters. It receives the current parameter space (min/max constraints) and generates the specific settings for the next experiment iteration. Planners should be capable of performing batch planning, where ARES specifies how many plans it would like in a given response. 
 
 ## Key Classes
 ### `AresPlannerService`
 #### Initialization (`__init__`)
 Arguments required to create an instance of the service:
-* `custom_plan_logic`: A callable function that will be executed when a PlanRequest is received. This function should accept a `PlanRequest` object and return a `PlanResponse` object (or an awaitable that resolves to one).
+* `custom_plan_logic`: A callable function that will be executed when a PlanRequest is received. This function should accept a `PlanRequest` object and return a `List[Plan]` (or `PlanResponse`) object (or an awaitable that resolves to one).
 * `service_name` (str): The name associated with your planner service.
 * `service_description` (str): A brief description of your planner service.
 * `service_version` (str): The version associated with your planner service.
@@ -30,7 +30,7 @@ This service is the main wrapper for your planners, giving you the bridge to con
 * `add_setting(setting_name, setting_type, default_value=None, optional=True, constraints=[], limits=None, description=None)`: Adds a setting that is configurable in ARES via the planner settings menu.
 * `set_timeout(new_timeout)`: Sets the amount of time, in seconds, that ARES will wait to receive responses from your planner service.
 * `start(wait_for_termination)`: Starts your planner service and begins listening for requests. 
-    * **If `True` (Default)**: The call **blocks** the main thread, keeping your program running indefinitely. This is necessary for standalone scripts; without it the backgrounds gRPC threads would die as soon as the script finishes.
+    * **If `True` (Default)**: The call **blocks** the main thread, keeping your program running indefinitely. This is necessary for standalone scripts; without it the background gRPC threads would die as soon as the script finishes.
     * **If `False`**: The call returns immediately. This allows you to run other code, but it becomes **your responsibility** to keep the program alive (e.g. via a GUI loop or `while` loop).
 * `stop()`: Stops your planner service, terminating the connection. 
 
@@ -55,55 +55,88 @@ This service is the main wrapper for your planners, giving you the bridge to con
 * `parameter_names` (List[str]): Shortcut property returning a list of all parameter names in the request.
 * `planned_parameter_table` (List[List[Any]]): Property returning tables of historical planned values.
 * `achieved_parameter_table` (List[List[Any]]): Property returning tables of historical achieved values.
-* `settings` (Dict): This is a dictionary that contains the current settings requested for your analyzer. If for instance if you have a setting called "seed" you could access it by calling `request.settings.get("seed")` (Note: you could access this item directly via `request.settings["seed"]`, however the get method is safer and generally best practice).
-* `analysis_results` (List[float]): This is a list of floats representing the previous responses from your analyzer (if any). This list will be empty if no previous analysis requests have been processed. These analysis results are paired with previous parameters via indexing, so for instance the first index of this results list will be the analysis result matching the first index of all your parameters historical values.
+* `settings` (Dict): This is a dictionary that contains the current settings requested for your planner. If for instance you have a setting called "seed" you could access it by calling `request.settings.get("seed")` (Note: you could access this item directly via `request.settings["seed"]`, however the get method is safer and generally best practice).
+* `analysis_results` (List[float]): This is a list of floats representing the previous responses from your analyzer (if any). This list will be empty if no previous analysis requests have been processed. These analysis results are paired with previous parameters via indexing, so for instance the first index of this results list will be the analysis result matching the first index of all your parameters historical values. **This field is deprecated, and will be removed in a future release of ARES.** It is being replaced by the new field `request.analysis_data`.
 * `request_metadata` (RequestMetadata): This object passes basic data about the request and the context around it for your use.
     * `system_name` (str): This is the name associated with the system sending this request (likely ARES).
     * `campaign_name` (str): The name of the running campaign that requested this plan.
     * `campaign_id` (str): The unique ID of the campaign that requested this plan.
-    * `experiment_id` (str): The unique ID of the experiment that request this plan.
+    * `experiment_id` (str): The unique ID of the experiment that requested this plan.
     * `experiment_start_time` (str): The start time of the current experiment, as reported by ARES.
+* `request.batch_size` (int): The number of plans ARES is requesting be sent back from this planner in its response.
+* `request.previous_plan_status_codes` (List[PlanStatusCode]): An optional list of status codes associated with previously planned experiments.
+* `request.analysis_data` (List[AnalysisDataEntry]): A list of `AnalysisDataEntry` objects, one per experiment, containing analyzer-produced objectives.
 
+`ObjectiveStatus(Enum)` Planners are now capable of reporting the status of the objective they're working towards, which ARES can optionally use to determine when to stop experimenting.
+* `OBJECTIVE_STATUS_UNSPECIFIED`: A default state, suggesting the planner has not specified anything regarding the state of the objective.
+* `OBJECTIVE_UNACHIEVED`: A state from the planner that it is tracking the status of the objective, but it is currently unachieved.
+* `OBJECTIVE_ACHIEVED`: A state from the planner that says the objective has been achieved from its understanding.
+* `OBJECTIVE_FAILED`: A state from the planner suggesting some sort of error has been encountered, used when we are no longer capable of achieving the desired objective.
 
-`PlanResponse(names, values)`
-* `parameter_names` (List[str]): The list of names associated with your parameters
-* `parameter_values` (List[Any]): The list of values associated with your parameters
-* `parameter_data` (Dict[str, Any]): A dictionary of values that represents your planning data, can be populated in place of parameter_names and parameter_values
-* `outcome` (Outcome): An enum of type Outcome that determines whether the planning process succeeded or not, defaults to SUCCESS
-* `error_string` (str): An optional string for specifying planning failure reasons that are relayed to ARES
+`ParameterHistoryItem(planned_value, achieved_value)`
+* `planned_value` (Any): The value given directly from the planner.
+* `achieved_value` (Any): An optional value that represents the real world achieved value, which may differ from the planners target value.
+
+`AnalysisDataEntry(analysis_objectives)`
+* `analysis_objectives` (List[Objective]): A list of `Objective` instances produced by the analyzer. See the [analyzer docs](analyzers.md) for more information on Objectives.
+
+#### Return Types
+
+Your custom planning logic can return either a **`List[Plan]`** (recommended, supports batch planning) or a **`PlanResponse`** (legacy / single-plan).
+
+`Plan(parameters, outcome=Outcome.SUCCESS, error_string="", objective_status=ObjectiveStatus.OBJECTIVE_STATUS_UNSPECIFIED)`  
+*(Recommended)* Represents an individual experimental plan. When ARES requests a batch size greater than 1 (`request.batch_size`), return a list containing multiple `Plan` objects (e.g., `[Plan(...), Plan(...)]`).
+* `parameters` (Union[List[PlannedParameter], Dict[str, Any]]): The planned variables for this specific iteration. Can be provided as a dictionary of `{"param_name": value}` or a list of `PlannedParameter` objects.
+* `outcome` (Outcome): Indicates if planning succeeded. Defaults to `Outcome.SUCCESS`.
+* `error_string` (str): Optional string detailing failure reasons if `outcome != Outcome.SUCCESS`.
+* `objective_status` (ObjectiveStatus): Optional status of the objective being optimized (e.g., `OBJECTIVE_ACHIEVED`). Defaults to `OBJECTIVE_STATUS_UNSPECIFIED`.
+
+`PlannedParameter(name, value)`
+* `name` (str): The name of the parameter as defined in ARES.
+* `value` (Any): The planned value for this parameter.
+
+`PlanResponse(parameter_names=None, parameter_values=None, parameter_data=None, outcome=Outcome.SUCCESS, error_string="", objective_status=ObjectiveStatus.OBJECTIVE_STATUS_UNSPECIFIED)`  
+> **Deprecated:** `PlanResponse` wraps a single plan execution. It is maintained for backwards compatibility, but returning a `List[Plan]` is preferred for all new services to support batch generation.
+* `parameter_data` (Optional[Dict[str, Any]]): Dictionary of `name: value` pairs for planned parameters.
+* `parameter_names` (Optional[List[str]]): List of parameter names (used with `parameter_values`).
+* `parameter_values` (Optional[List[Any]]): List of parameter values.
+* `outcome` (Outcome): Indicates success/failure. Defaults to `Outcome.SUCCESS`.
+* `error_string` (str): Optional error message.
+* `objective_status` (ObjectiveStatus): Status of the target objective.
+
 
 ## Example Implementation
 This example demonstrates a simple "Random Search" planner.
 ```Python
-from PyAres import AresPlannerService, PlanRequest, PlanResponse, AresDataType, Outcome
 import random
+from PyAres import AresPlannerService, PlanRequest, Plan, AresDataType, Outcome
 
-def generate_plan(request: PlanRequest) -> PlanResponse:
-    planned_values = []
-    names = []
-
-    # Iterate through every parameter configured in the ARES Experiment
-    for param in request.parameters:
-        # Simple Logic: Pick a random value within the allowed range
-        val = random.uniform(param.minimum_value, param.maximum_value)
+def generate_plan(request: PlanRequest) -> list[Plan]:
+    plans = []
+    
+    # Generate as many plans as ARES requested in request.batch_size
+    for _ in range(request.batch_size):
+        planned_values = {}
+        for param in request.parameters:
+            planned_values[param.name] = random.uniform(
+                param.minimum_value, 
+                param.maximum_value
+            )
         
-        names.append(param.name)
-        planned_values.append(val)
-
-    #Alternatively, you could populate names and planned_values into a dictionary that is provided to the parameter_data argument
-    return PlanResponse(parameter_names=names, parameter_values=planned_values, outcome=Outcome.SUCCESS)
+        # Construct an individual Plan
+        plans.append(Plan(parameters=planned_values, outcome=Outcome.SUCCESS))
+        
+    return plans
 
 if __name__ == "__main__":
     service = AresPlannerService(
         generate_plan, 
         "Random Search Planner", 
-        "This planner picks random values within bounds.", 
+        "Picks random parameter values within bounds.", 
         "1.0.0"
     )
 
-    # Tell ARES we can plan for Numeric values
     service.add_supported_type(AresDataType.NUMBER)
-
     service.start()
 ```
   
