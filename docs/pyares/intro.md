@@ -17,7 +17,7 @@ PyAres decouples the engineering complexity from the scientific logic. It allows
 PyAres functions as a microservice framework. Communications between your Python scripts and the ARES core are handled via **gRPC** and **Protobuf**.
 
 *  **Language Agnostic:** Because of this architecture, ARES treats PyAres components like any other ARES component. A Python-based device is indistinguishable from the native C# device to ARES OS.
-* **Distributed Capable:** PyAres services do not need to run on the same machine as the ARES core. You can host computationally heavy services (e.g. machine vision models) on a dedicated GPU machine wile ARES runs on the main control PC.
+* **Distributed Capabilities:** PyAres services do not need to run on the same machine as the ARES core. You can host computationally heavy services (e.g. machine vision models) on a dedicated GPU machine wile ARES runs on the main control PC.
 
 # Core Components
 ✨ You can build three types of services/extensions/components using PyAres:

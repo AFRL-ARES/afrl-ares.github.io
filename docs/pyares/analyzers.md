@@ -9,7 +9,7 @@ Analyzers are the eyes of your laboratory. They take raw data (can include data 
 ## The Core Concept
 An Analyzer sits in the loop to answer the question: "_Did this experiment work, and what was the result?_"
 * **Input:** A dictionary of data points (defined by you).
-* **Output:** An `AnalysisResult` object containing the result value and a status flag indicating if the calculation completed successfully.
+* **Output:** An `AnalysisResponse` object containing the result value and a status flag indicating if the calculation completed successfully.
 
 **Important:** The Analyzer does not decide if the experiment passed or failed. It only reports the data. ARES is responsible for checking that data against your experiment's Stop Conditions (if applicable).
 
@@ -22,7 +22,7 @@ Arguments required to create an instance of the service:
 * `version` (str): The version of your analyzer.
 * `description` (str): A brief description of your analyzer.
 * `timeout` (int): The amount of time, in seconds, ARES will wait to receive a response from this service. Defaults to 30.
-* `use_localhost` (bool): If true, binds to localhost. Otherwise binds to [::], which is all IP addresses that exist on the computer the serrvicec is running on.
+* `use_localhost` (bool): If true, binds to localhost. Otherwise binds to [::], which is all IP addresses that exist on the computer the service is running on.
 * `port` (int): The port your analyzer service will serve on. Defaults to port 7083.
 * `max_message_size` (int): The max size, in megabytes, of the messages your Analysis service is capable of sending and receiving. Increasing this can help transfer large amounts of data for things like images, but may result in some loss in performance. 
 
@@ -30,7 +30,7 @@ This service is the main wrapper for your analyzer, giving you the bridge to con
 
 #### Methods
 * `add_analysis_parameter(parameter_name, parameter_type, optional=False, struct_schema=None)`: Tells ARES what data this analyzer expects to receive. For example, if you are analyzing a print, you might request parameters like `"LayerHeight"` or `"CameraImage"`.
-* `add_setting(setting_name, setting_type, default_value=None, optional=True, constraints=[], struct_schema=None, limits=None, description=None)`: Adds a setting that is configurable in ARES via the analyzer settings menu.
+* `add_setting(setting_name, setting_type, default_value=None, optional=True, constraints=None, struct_schema=None, limits=None, description=None)`: Adds a setting that is configurable in ARES via the analyzer settings menu.
 * `set_timeout(new_timeout)`: Dynamically sets a new timeout value in seconds for ARES to wait for responses.
 * `start(wait_for_termination)`: Starts your analysis service and begins listening for requests. 
     * **If `True` (Default)**: The call **blocks** the main thread, keeping your program running indefinitely. This is necessary for standalone scripts; without it the background gRPC threads would die as soon as the script finishes.
@@ -40,34 +40,42 @@ This service is the main wrapper for your analyzer, giving you the bridge to con
 
 #### Objects
 `AnalysisRequest`
-* `request.inputs`: A dictionary containing the input data sent from ARES.
-* `request.settings`: A dictionary containing configured setting values for this analyzer.
-* `request.request_metadata`: A `RequestMetadata` object containing campaign name, id, experiment id, etc.
+* `request.inputs` (Dict[str, Any]): A dictionary containing the input data sent from ARES.
+* `request.settings` (Dict[str, Any]): A dictionary containing configured setting values for this analyzer.
+* `request.request_metadata` (RequestMetadata): A `RequestMetadata` object containing campaign name, id, experiment id, etc.
 
-`AnalysisResponse(result, outcome=Outcome.SUCCESS, error_string="")`: The object you must return from your custom analysis logic.
-* `result`: The calculated metric represented as a float (e.g., `95.5`).
-* `outcome`: An `Outcome` Enum indicating if the code ran successfully (e.g., `Outcome.SUCCESS` or `Outcome.FAILURE`).
-* `error_string`: An optional string specifying why an analysis failed.
+`Objective`
+* `objective.objective_name` (str): A name the user wants associated with this objective.
+* `objective.objective_value` (Any): The value associated with this objective, as calculated by the analyzer.
+* `objective.metadata` (Dict[str, Any]): Optional metadata associated with this objective, represented as a dictionary
+
+`AnalysisResponse(objectives=[], outcome=Outcome.SUCCESS, error_string="")`: The object you must return from your custom analysis logic.
+* `objectives` (List[Objective]): A list of 'Objective' objects representing the outputs of the analysis process. 
+* `outcome` (Outcome): An `Outcome` Enum indicating if the code ran successfully (e.g., `Outcome.SUCCESS` or `Outcome.FAILURE`).
+* `error_string` (str): An optional string specifying why an analysis failed.
+* `result` (float): The calculated metric represented as a float (e.g., `95.5`). While still supported, **this field is deprecated** and will be removed in a future major release. 
 
 ## Example Implementation
 ```Python
-from PyAres import AresAnalyzerService, AnalysisRequest, AnalysisResponse, AresDataType, Outcome
+from PyAres import *
 
 def analyze_sample(request: AnalysisRequest) -> AnalysisResponse:
     # 1. Extract inputs
-    # 'Growth_Metric' would come from a sensor
+    # 'Growth_Metric' would come from a sensor or previous step
     raw_value = request.inputs.get("Growth_Metric")
 
     if raw_value is None:
-        return AnalysisResponse(result=0.0, outcome=Outcome.FAILURE, error_string="Growth_Metric missing")
-    
+        return AnalysisResponse(objectives=[], outcome=Outcome.FAILURE, error_string="No raw value provided, cannot analyze")
+
     # 2. Perform Logic
     print(f"Analyzing sample with value: {raw_value}")
     
-    calculated_score = raw_value * 1.5 # Placeholder logic
+    calculated_score = raw_value * 1.5
+
+    objective_score = Objective("Calculated Score", calculated_score) 
     
     # 3. Return Result
-    return AnalysisResponse(result=calculated_score, outcome=Outcome.SUCCESS)
+    return AnalysisResponse(objectives=[objective_score], outcome=Outcome.SUCCESS)
 
 if __name__ == "__main__":
     service = AresAnalyzerService(
@@ -79,6 +87,11 @@ if __name__ == "__main__":
 
     # Define what data we need from ARES
     service.add_analysis_parameter("Growth_Metric", AresDataType.NUMBER)
+    
+    service.add_setting("Random Setting", AresDataType.NUMBER, 
+                        default_value=250, 
+                        limits=Limits(1, 500),
+                        description="This is a random setting, it is purely for demonstration purposes")
 
     service.start()
 ```
