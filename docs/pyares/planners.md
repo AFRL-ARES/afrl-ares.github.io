@@ -7,7 +7,7 @@ title: 🧠 Planners
 Planners are the brain of your laboratory. They reside at the top of the loop, deciding _what to do next_ based on previous results.
 
 ## The Core Concept
-A Planner is responsible for choosing your next experiment parameters. It receives the current parameter space (min/max constraints) and generates the specific settings for the next experiment iteration. Planners should be capable of performing batch planning, where ARES specifies how many plans it would like in a given response. 
+A Planner is responsible for choosing your next experiment parameters. It receives the current parameter space (min/max constraints) and generates the specific settings for the next experiment iteration. Planners should be capable of performing batch planning, where ARES specifies how many plans it would like in a given response. Planners are designed to be stateless by default, but whether or not your service tracks data between experiments is up to the implementer. 
 
 ## Key Classes
 ### `AresPlannerService`
