@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+title: Welcome to the ARES Launcher
+---
+
 import { useEffect, useState } from 'react';
 
 # ARES Launcher
@@ -126,6 +131,20 @@ It may take several seconds for the server to finish booting, so the page may ap
 
 You can safely close the launcher window-it continues running in the background and can be accessed from the **system tray**. To fully exit, right‑click the tray icon and choose **Exit**. *Stopping the launcher does **not** stop ARES; stopping ARES must be done explicitly.*
 
+## Launcher Updates
+
+The launcher itself can check for updates to its own binary:
+
+- When a newer launcher version is detected:
+  - A **Launcher Update Available** notification button appears on the Overview tab.
+- Clicking this button:
+  - Downloads the new launcher binary.
+  - Stages it for use.
+  - Shuts down the current launcher and relaunches into the updated version.
+
+This flow removes the need to manually browse GitHub Releases for launcher updates.
+
+
 #### Handling Conflicts
 
 If you launch the app while an ARES instance is already running, you’ll be prompted to choose how to resolve the conflict:
@@ -135,53 +154,6 @@ If you launch the app while an ARES instance is already running, you’ll be pro
 * **Ignore** – leave the existing instance running
 
 The process names used for detection are configurable but generally should not be touched unless you know what you're doing.
-
-## Configuration
-
-The **Configuration** tab allows you to customize launcher behavior.
-
-### Binary Locations
-
-Set where ARES binaries should be stored. Most ARES releases bundle the UI and service together, so their binary paths should usually be the same. By default, binaries are placed in a subfolder of the launcher’s directory.
-
-### Advanced Settings
-
-Advanced options allow further customization:
-
-* **Database Provider** – The default is SQLite, stored locally, but you can supply a custom SQLite path or switch providers using a valid connection string. Supported providers include **SQLite**, **PostgreSQL**, and **MSSQL**.
-* **Service/UI Endpoints** – Adjust ports or addresses if they conflict with other services.
-
-## Updates
-
-When a new ARES release is published with a higher version number, the launcher will notify you on startup. Selecting **Update** will:
-
-* Clear old binary directories
-* Download and extract the new release bundle
-* Apply any database migrations
-
-If you choose to downgrade your ARES version, the launcher will check for an existing database snapshot for that version. If a snapshot is found, you will be prompted to restore it; if not, the database will be reset to avoid compatibility issues. **Always back up your database before updating or downgrading ARES.**
-
-### Launcher Updates
-The launcher can now check for updates to itself automatically! If a new version of the launcher is detected, a notification button will appear. Clicking it will automatically download the new launcher, stage it, and relaunch without requiring you to manually navigate to the Releases page.
-
-## Custom ARES Repositories
-
-By default, the launcher uses the official repository:
-
-```
-https://github.com/AFRL-ARES/ARES
-```
-
-You can add custom GitHub‑hosted repositories under **Available Repositories**, then select one as the **Current Repository**.
-
-Your custom repository must:
-
-* Provide proper release bundles
-* Follow the expected structure so the launcher knows what to download
-
-If switching repositories while an instance is already installed, update the binary path and database path to prevent conflicts.
-
-If the custom repository is private, you can supply a GitHub token with **read** access to fetch releases.
 
 ## Contributing
 
