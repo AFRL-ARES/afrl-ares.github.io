@@ -1,6 +1,6 @@
 ---
 sidebar_position: 9
-title: 🏗️ Installation
+title: Installation
 ---
 
 ## Method 1: Python Package (Recommended)
