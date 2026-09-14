@@ -4,7 +4,7 @@ title: Welcome to PyAres
 ---
 
 # Welcome to PyAres 
-**PyAres** is the official Python library for **ARES OS**, designed to bridge the gap between labratory automation and accessible scientific research.
+**PyAres** is the official Python library for **ARES OS**, designed to bridge the gap between laboratory automation and accessible scientific research.
 
 PyAres enables developers and researchers to create **Planners**, **Analyzers**, and **Devices** using Python, fully integrating them into the ARES ecosystem without requiring knowledge of C# or modifications to the ARES Core.
 
@@ -17,32 +17,32 @@ PyAres decouples the engineering complexity from the scientific logic. It allows
 PyAres functions as a microservice framework. Communications between your Python scripts and the ARES core are handled via **gRPC** and **Protobuf**.
 
 *  **Language Agnostic:** Because of this architecture, ARES treats PyAres components like any other ARES component. A Python-based device is indistinguishable from the native C# device to ARES OS.
-* **Distributed Capabilities:** PyAres services do not need to run on the same machine as the ARES core. You can host computationally heavy services (e.g. machine vision models) on a dedicated GPU machine wile ARES runs on the main control PC.
+* **Distributed Capabilities:** PyAres services do not need to run on the same machine as the ARES core. You can host computationally heavy services (for example, machine vision models) on a dedicated GPU machine while ARES runs on the main control PC.
 
 # Core Components
-✨ You can build three types of services/extensions/components using PyAres:
+You can build three types of services/extensions/components using PyAres:
 
 **1. Planners** <br></br>
 Planners define the decision-making logic for "Self-Driving" loops.
-* **Input:** Current experiment parameters, constraints and past experiment data including analysis results.
+* **Input:** Current experiment parameters, constraints, and past experiment data including analyzer objectives and previous outcomes.
 * **Output:** The next set of experimental conditions.
 * **Use Case:** Iterative optimization, Bayesian optimization, or simple step-wise logic.
 
 **2. Analyzers** <br></br>
 Analyzers process raw data to return structured results.
 * **Input:** Raw data (images, sensor logs, data streams).
-* **Output:** A success/failure state, a score, and potentially calculated metrics.
-* **Use Case:** Analyzer a photo of a 3D print to detect failures or calculating growth rates from sensor data.
+* **Output:** One or more objective values plus a success/failure outcome (and optionally other calculated metrics).
+* **Use Case:** Analyze a photo of a 3D print to detect failures or calculate growth rates from sensor data.
 
 **3. Devices** <br></br>
 Devices provide the interface between ARES and physical hardware.
-* **Input:** Commands from ARES(e.g. `set_temperature`, `set_flowrate`)
-* **Output:** State data and command confirmations
+* **Input:** Commands from ARES (for example, `set_temperature`, `set_flowrate`).
+* **Output:** State data and command confirmations.
 * **Use Case:** Integrating a custom sensor, a serial device, or a specialized camera using Python drivers.
 
 # Integration Workflow
-PyAres uses a manual registration model for services to ensure reliability in complex network environments. Below we'll describe the process for a "Device" service. But the proicess is very similar for the other services listed [core services](#Core-Components)
-1. **Launch Service** Start your PyAres script (e.g., `python my_device.py`). It will listen on a specific address (e.g. `http://localhost:7800`).
+PyAres uses a manual registration model for services to ensure reliability in complex network environments. Below we'll describe the process for a "Device" service, but the process is very similar for the other services listed under [Core Components](#core-components).
+1. **Launch Service** Start your PyAres script (for example, `python my_device.py`). It will listen on a specific address (for example, `http://localhost:7800`).
 2. **Register in ARES**
     * Navigate to the **Settings** menu in ARES OS.
     * In the Device tab, select "Remote".
@@ -53,6 +53,13 @@ PyAres uses a manual registration model for services to ensure reliability in co
 Once registered, you can now connect and control new hardware, making your implementations ARES ready as a PyAres Device.
 
 # Getting Started
-To install the library, see [installation](./install.md)
+To install the library, see [installation](./install.md).
 
-Check the sidebar for detailed guides on build your first Planner, Analyzer or Device.
+If you want to get hands-on quickly, the [Quick Start](./quick-start.md) walks through running one Planner, Analyzer, and Device end to end.
+
+For deeper dives into each component, see:
+- [Planners](./planners.md)
+- [Analyzers](./analyzers.md)
+- [Devices](./devices.md)
+
+Check the sidebar for detailed guides on building your first Planner, Analyzer, or Device.

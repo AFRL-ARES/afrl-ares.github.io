@@ -144,3 +144,47 @@ if __name__ == "__main__":
 
     service.start()
 ```
+
+## Using Analyzer Objectives in Planners
+
+Analyzers and planners are connected through objectives. An analyzer reports objective values in its `AnalysisResponse`, and ARES passes those values into your planner requests so you can adapt future plans based on past results.
+
+On the analyzer side:
+* Your analyzer declares its outputs with `add_objective_output(objective_name, objective_type, ...)`.
+* It returns an `AnalysisResponse` with one or more `Objective` instances in the `objectives` list.
+
+On the planner side, the same data appears in `PlanRequest`:
+* `analysis_data` (List[AnalysisDataEntry]): One entry per experiment in the planning batch.
+* Each `AnalysisDataEntry` exposes `analysis_objectives: List[Objective]` for that experiment.
+* `analysis_objectives` (List[List[Objective]]): Convenience property on `PlanRequest` that returns a list of objective lists, one per experiment.
+
+A simple pattern for using these objectives in a planner might look like this:
+
+```Python
+from PyAres import PlanRequest, Plan, PlannedParameter, Outcome
+
+def generate_plan(request: PlanRequest) -> List[Plan]:
+    # Look at the last experiment's objectives (if any)
+    last_growth_score = None
+    if request.analysis_objectives:
+        for obj in request.analysis_objectives[-1]:
+            if obj.objective_name == "growth_score":
+                last_growth_score = obj.objective_value
+
+    # Use last_growth_score (if present) to adjust your next parameter values
+    planned_parameters = []
+    for param in request.parameters:
+        new_value = param.minimum_value
+        if last_growth_score is not None:
+            # Example: push the parameter upward if growth_score is low
+            span = param.maximum_value - param.minimum_value
+            factor = max(0.0, min(1.0, 1.0 - last_growth_score))
+            new_value = param.minimum_value + span * factor
+
+        planned_parameters.append(PlannedParameter(param.name, new_value))
+
+    plan = Plan(planned_parameters=planned_parameters, outcome=Outcome.SUCCESS)
+    return [plan]
+```
+
+For multi-objective planners, set `multi_objective_capable=True` when constructing `AresPlannerService`. This lets ARES know your planner expects and can leverage multiple analyzer objectives when producing plans.

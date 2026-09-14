@@ -123,3 +123,33 @@ if __name__ == "__main__":
 
     service.start()
 ```
+
+## How Analyzers and Planners Work Together
+
+Analyzers and planners are connected through objectives. The high-level flow looks like this:
+
+1. Your analyzer receives an `AnalysisRequest` and returns an `AnalysisResponse` that contains one or more `Objective` instances.
+2. ARES records those objectives as part of the experiment history.
+3. When a planner is invoked, those same objectives are made available on the planner side via `PlanRequest.analysis_data` (as a list of `AnalysisDataEntry` objects) and the convenience property `PlanRequest.analysis_objectives`.
+
+On the planner side:
+* `PlanRequest.analysis_data` is a list where each element represents one experiment in the planning batch.
+* Each `AnalysisDataEntry` contains an `analysis_objectives` list with the `Objective` instances produced by your analyzer for that experiment.
+* `PlanRequest.analysis_objectives` returns the same information as a `List[List[Objective]]` for easier iteration.
+
+This means you can use analyzer outputs to guide planning directly. For example, a planner can look at the most recent objective value:
+
+```Python
+# Inside your planner custom_plan_logic(request: PlanRequest)
+if request.analysis_objectives:
+    # Get objectives for the most recent experiment in the batch
+    last_experiment_objectives = request.analysis_objectives[-1]
+    for obj in last_experiment_objectives:
+        if obj.objective_name == "growth_score":
+            print(f"Last growth_score: {obj.objective_value}")
+            # Use this to adjust your next plan
+```
+
+To make this work end-to-end:
+* Your analyzer must declare and populate objectives via `add_objective_output(...)` and `AnalysisResponse(objectives=[...])`.
+* Your planner should set `multi_objective_capable=True` when constructing `AresPlannerService` if it plans over multiple objectives.

@@ -11,7 +11,7 @@ By the end of this tutorial, you will have a running Python service for each maj
 
 ## 1. Installation
 
-For each individual PyAres service, we **highly recommend** using virtual environments to manage your dependencies. It is not uncommon for various services to have vastly different dependencies, and sometimes even rely on different version of the PyAres library. For a smooth experience, follow the steps for [creating virtual environments](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) to keep your dependencies neatly separated.
+For each individual PyAres service, we **highly recommend** using virtual environments to manage your dependencies. It is not uncommon for various services to have vastly different dependencies, and sometimes even rely on different versions of the PyAres library. For a smooth experience, follow the steps for [creating virtual environments](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) to keep your dependencies neatly separated.
 
 First, ensure you have the library installed:
 
@@ -25,13 +25,17 @@ pip install PyAres
 
 Download the [PyAres Ax Planner](https://github.com/AFRL-ARES/pyares-ax-planners) onto your local machine.
 
-This planner is a wrapper around Meta's AX API, and provides a Bayesian Optimization planner for use with ARES OS. This planner offers a long list of useful features that you can learn more about in the repositories README file. You can also find further setup instructions in the README as well.
+This planner is a wrapper around Meta's AX API, and provides a Bayesian Optimization planner for use with ARES OS. This planner offers a long list of useful features that you can learn more about in the repository README file. You can also find further setup instructions in the README as well.
+
+For a deeper dive into how planners work in PyAres, see the [Planners](./planners.md) documentation.
 
 ### Analyzer
 
 Download the [PyAres Ax Analyzer](https://github.com/AFRL-ARES/PyAres/blob/Develop/PyAres/Demo/Analyzers/ax_analyzer_test.py) onto your local machine.
 
 This analyzer is designed to simulate a problem space with hidden ideal conditions, that being a temperature of 165 and a concentration of 3.2. The analyzer will take in whatever temperature and concentration the planner chose and calculate a yield value as an objective output. This yield value is a direct representation of the quality of the choices the planner makes, creating a simulated problem space for a planner to explore.
+
+The Ax analyzer example uses the older single-result pattern (`AnalysisResponse(result=...)`), which is still supported. For new analyzers, we recommend using the multi-objective `AnalysisResponse(objectives=[Objective(...)])` pattern described in the [Analyzers](./analyzers.md) docs.
 
 ### Device
 
@@ -82,12 +86,12 @@ if __name__ == "__main__":
     service = AresDeviceService(
         my_hotplate.safe_mode,
         my_hotplate.get_state,
-        "My Virtual Hotplate",    # Device Name
+        "My Virtual Hotplate",      # Device Name
         "A simulated lab hotplate", # Description
-        "1.0.0"                   # Version
+        "1.0.0"                     # Version
     )
 
-        # 3. Define Command: Set Temperature
+    # 3. Define Command: Set Temperature
     # This schema tells ARES to draw a Number Input box in the UI
     input_schema = { 
         "temp": DeviceSchemaEntry(AresDataType.NUMBER, "Target Temperature", "Celsius") 
@@ -129,6 +133,8 @@ if __name__ == "__main__":
     service.start()
  ```
 
+For a more complete description of device services, command schemas, and return types, see the [Devices](./devices.md) documentation.
+
 ## 3. Running and Connecting
 
 The core concept behind the PyAres library is creating services that wrap around the critical components of your autonomous lab. These services run entirely independent of the core ARES software, and thanks to the gRPC and protobuf communications that define the datamodel, are capable of remote communications over networks should your use case require it. Connecting these services to ARES is a two-step process: first you must start the service, then you must tell ARES how to find it.
@@ -143,17 +149,17 @@ Once you have followed the setup instructions in the README of the [PyAres AX Pl
 python start_pyares_ax_planner.py
 ```
 
-If done successfully you should see your planner service start on port 1337.
+If done successfully you should see your planner service start on port 1337 (or whatever port is configured in that example).
 
 #### Analyzer
 
-With your analyzer cloned to your local machine and your virtual environment setup, starting your analyzer is simple.
+With your analyzer cloned to your local machine and your virtual environment set up, starting your analyzer is simple.
 
 ```Bash
 python ax_analyzer_test.py
 ```
 
-By default your analyzer will start on port 8200.
+By default your analyzer will start on port 8200 (unless you have changed the port in the example script).
 
 #### Device
 
@@ -167,16 +173,16 @@ You should see a message indicating the service has started and is listening (de
 
 ### Step 2: Register in ARES
 
-The process for adding these services are all very similar in ARES. Below are the steps for connecting to your device example, but you can mimic this process for the planner and analyzer via their respective tabs in the settings menu.
+The process for adding these services is very similar in ARES. Below are the steps for connecting to your device example, but you can mimic this process for the planner and analyzer via their respective tabs in the settings menu.
 
 1. Open **ARES OS**  
     * Need help installing ARES? Check out the [ARES Launcher](../launcher/intro.md) for a streamlined install
-2. In the bottom left, open your settings menu(the gear icon), and navigate to **Device > Remote**
+2. In the bottom left, open your settings menu (the gear icon), and navigate to **Device > Remote**
 3. Click the plus button on the right side of the screen
 4. Give your device a name, and supply ARES the address it can expect to communicate with your device with (e.g. http://localhost:7100)
 5. Click Save
 
 ### Step 3: Test Your New Services
-When adding your services, ARES will display whether or not the connection to those services is active. If you see a green "Active" on the service in the settings menu, you have successfully connected to your PyAres service! You should be able to see some basic information like the address of the service, the reported name, and a description and version as reported by the service itself.
+When adding your services, ARES will display whether or not the connection to those services is active. If you see a green "Active" on the service in the settings menu, you have successfully connected to your PyAres service. You should be able to see some basic information like the address of the service, the reported name, and a description and version as reported by the service itself.
 
-Congratulations! At this point you have successfully connected one of each core pieces of the ARES software, and you're almost ready to begin running closed-loop campaigns. If you haven't already, check out the [ARES Quick Start Guide](../ares/quickstart.md) to learn more about using our software. Happy experimenting! 
+Congratulations. At this point you have successfully connected one of each core pieces of the ARES software, and you're almost ready to begin running closed-loop campaigns. If you haven't already, check out the [ARES Quick Start Guide](../ares/quickstart.md) to learn more about using our software. Happy experimenting.
