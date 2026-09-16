@@ -47,7 +47,7 @@ A **Campaign** is created when you take an Experiment Template and run it for a 
 
 1. **Go to Execution:** Select **Automation > Execution** from the sidebar.
 2. **Select Template:** Choose your pre-designed template from the dropdown menu.
-3. **Define the Stop Condition**: Enter the **Desired number of experiments** (the number of times ARES will iterate through your template)
+3. **Define the Stop Condition**: Enter the **Desired number of experiments** (the number of times ARES will iterate through your template). More advanced stop conditions, such as analyzer result goals or planner-reported objective completion, are available in the Execution view and described in the Campaign Execution documentation.
 4. **Initialize Campaign**: Click **Set** to prepare your run.
 5. **Run**: Click the **Play Button** at the top right to begin the campaign.
 6. **Live Monitor**: Once you click play, the page will automatically toggle to the **Experiment Status** to watch each iteration move from "Running" to "Succeeded" in real-time.
