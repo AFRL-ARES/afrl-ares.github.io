@@ -78,6 +78,8 @@ To assign a planner:
 - **Sequential Logic:** Scripts are executed from top to bottom.
 - **Validation:** The **Save** button in the bottom right will persist your changes. If you reference a parameter in your script that hasn't been defined or mapped, the system will alert you.
 
+Once your campaign template is saved and validated, use the **Execution** page to select the campaign, configure stop conditions, and start a run. See [Executing a Campaign](./execution.md) for details on running and monitoring campaigns built in the Campaign Designer.
+
 <video controls width="100%">
   <source src="/video/campaign-construction.mp4" type="video/mp4"/>
 </video>

@@ -10,6 +10,8 @@ title: Executing a Campaign
 
 Once you have designed your experiment template and assigned your components in the **Campaign Designer**, the **Execution** view is where you launch and monitor your live campaign. ARES OS manages the iterative flow between the planner, the experiment script, and the analyzer in real-time.
 
+For guidance on building and configuring campaign templates, see [Campaign Designer: Building Experiments](./campaign-construction.md).
+
 ## 2. Launching a Campaign
 Follow these steps to start your campaign:
 

@@ -52,12 +52,24 @@ These remote services allow you to extend ARES without modifying the core orches
  
 ## Setup to develop for ARES OS and PyAres
 
-This is most likely the case of a developer, making changes to the main ARES OS and making sure its supported through PyAres to keep the python support up to date.  
-This section will set up your dev environment to be able to develop and contribute if needed.
+This is most likely the case for a developer making changes to the main ARES OS and keeping its Python support up to date via PyAres.  
+This section will set up your development environment so you can build, test, and contribute.
 
-1. First and formost, see the [Contribution Guide](./contributing.md) for processes and dev style.
-2. Create and setup your python virtual environment for ares work. `python -m venv <virtual environment directory name>`  ex. `python -m venv .venv`
-    b. activate your python virtual environement by running the activate script based on what terminal you're in, using the same example in a command prompt. you'd call `.venv\Scripts\activate.bat`
-3. Follow [ARES OS Installation for developers](./install.md#method-2-manual-build-for-developers) to setup main ares software.
-4. Follow [PyAres Installation for developers](../pyares/install.md) to setup PyAres development
-5. Follow [datamodel Installation for develioers](../datamodel/install.md#method-2-manual-for-developers)
+1. First and foremost, see the [Contribution Guide](./contributing.md) for processes and development style.
+2. Create and set up your Python virtual environment for ARES work: `python -m venv <virtual environment directory name>`  (for example, `python -m venv .venv`).
+   * Activate your Python virtual environment by running the appropriate activate script based on your terminal. Using the `.venv` example in a command prompt, you would call `.venv\Scripts\activate.bat`.
+3. Follow [ARES OS Installation for developers](./install.md#method-2-manual-build-for-developers) to set up the main ARES software.
+4. Follow [PyAres Installation for developers](../pyares/install.md) to set up PyAres development.
+5. Follow [Datamodel Installation for developers](../datamodel/install.md#method-2-manual-for-developers) to work with the ARES datamodel.
+
+## Common Development Tasks
+
+Here are some common development tasks and where to start for each:
+
+| Task | Where to Work | Related Docs |
+| :--- | :--- | :--- |
+| Change core orchestration behavior in ARES OS | `Ares.Core`, `AresService`, `UI` projects in the ARES OS solution | This Developer Guide, [Building a Campaign](./campaign-construction.md), [Executing a Campaign](./execution.md) |
+| Add a new Python analyzer or planner | PyAres repository and corresponding remote service (e.g., demo projects) | [PyAres docs](../pyares/intro.md), [Adding an Analyzer](./add-analyzer.md), [Adding a Planner](./add-planner.md) |
+| Extend the gRPC and datamodel layer | `ARES-datamodel` repository | [Datamodel Installation for developers](../datamodel/install.md#method-2-manual-for-developers) |
+| Build or update remote device integrations | Demo remote device projects and adapters in the ARES OS repository | [Developer Guide](./developer-setup.md), device-specific docs |
+| Create or refine script-backed behavior (custom commands, campaign scripts) | Script bodies in the ARES OS UI and related projects | [Custom Commands](./custom-commands.md), [ARES Scripting](./scripting.md) |
