@@ -50,7 +50,7 @@ Use the Campaign Data tab when you are ready to move from structural information
 
 _Access: Sidebar -> Data Viewer -> Device State tab_
 
-Device State Explorer focuses on device-centric logs rather than experiment-centric tables.
+The Device State Explorer focuses on device-centric logs rather than experiment-centric tables.
 
 * **Device selection:** Choose one or more devices that have logged state, with search and filtering over device names and IDs.
 * **Filters:** Apply time-window filters (start and end), a minimum sample interval, and optional campaign or experiment filters to constrain the state data.
