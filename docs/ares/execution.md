@@ -52,7 +52,16 @@ Before a campaign can start, ARES needs to know **how the run should stop**. The
 
 Only one mode is active at a time. When you press **Play**, ARES applies the currently selected stop condition and uses it to determine when the campaign is considered complete.
 
-## 5. Planning Cadence and Replication
+## 5. Run Details: Notes and Tags
+
+The **Run Details** area in the Execution view lets you attach additional context to a campaign before it starts:
+
+* **Experiment notes:** A free-form notes field captured when the campaign starts. Use this to record the intent of the run, configuration details, or anything you want to remember when reviewing results later.
+* **Experiment tags:** A set of named tags you can select from the available list or create on the fly. Selected tags are recorded with the campaign when it starts and surfaced in the run summary to help identify and group runs.
+
+Notes and tags are locked while a campaign is actively running. Adjust them while the campaign is idle, then start the run so ARES can capture them alongside the execution metadata.
+
+## 6. Planning Cadence and Replication
 
 ARES distinguishes between **how often it calls the planner** and **how many planned points it requests**:
 
@@ -61,18 +70,28 @@ ARES distinguishes between **how often it calls the planner** and **how many pla
 
 Together, these settings determine the cadence of planning in your campaign. For simple runs, a Re-Planning Rate of `1` keeps planning tightly coupled to each experiment. For throughput-oriented runs, you can use a higher replication rate or larger batch size to reduce planner calls.
 
-## 6. The Closed-Loop Flow
+## 7. The Closed-Loop Flow
 As the campaign progresses, you can observe the interaction between your registered services:
 1.  **Planning:** The system contacts your **Planning Service** to retrieve the next set of parameters (e.g., a new `Setpoint` for the Tube Furnace).
 2.  **Execution:** The experiment script runs on the hardware using these planned values.
 3.  **Analysis:** Upon completion of the script, the **Analyzer** processes the results and provides feedback to the system, which then informs the next planning cycle.
 
-## 7. Completing or Stopping a Campaign
+## 8. Live Metrics and Telemetry
+
+During a live run, ARES surfaces closed-loop telemetry so you can see how planning, analysis, and device behavior evolve over time:
+
+* **Planner Data chart:** Plots planned parameter values over experiment index. Values are normalized to a 0–100 scale for charting, with the raw numeric values shown in tooltips. Each series corresponds to a planned parameter.
+* **Analyzer Data chart:** Plots analyzer objective values over experiment index. Like planner metrics, the chart uses a normalized scale for visualization while tooltips show the raw objective scores.
+* **Device Monitoring charts:** Optional, user-configured charts that start empty and become available once you add a device visualization in the Device Monitoring area. Each chart is tied to a selected device and visualization configuration, and displays live device data based on that configuration during execution.
+
+These charts help you quickly assess whether the planner is exploring the parameter space as expected, whether the analyzer’s objective scores are moving toward your desired targets, and how key device signals are behaving during the campaign.
+
+## 9. Completing or Stopping a Campaign
 * **Completion:** Once the **Stop Condition** (e.g., desired number of experiments) is met, a green notification will indicate `Campaign Completed`.
 * **Manual Stop:** You can stop the campaign at any time using the **Square (Stop)** button in the control bar.
 * **Emergency Stop:** The red **Emergency Stop** button in the bottom right is always available to immediately halt all hardware operations.
 
-## 8. Preflight Checks Before Starting a Campaign
+## 10. Preflight Checks Before Starting a Campaign
 
 Before ARES starts a campaign, the Execution view runs a **preflight check** to confirm that all required pieces are ready. The checklist includes:
 
