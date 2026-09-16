@@ -40,6 +40,8 @@ The Dashboard is the home page of ARES. Unlike a static status screen, this is a
 
 * Manual Control: Use this page to manually jog motors, set temperatures, or toggle sensors.
 
+* Configuration vs Control: Devices, whether physical, simulated, plugin-based, or remote, are **registered and configured** in the **Settings** view (see the Adding a Device guide). Once registered, their control widgets appear on the Dashboard for day-to-day manual interaction.
+
 ## 3. Automation Suite
 The core functionality of ARES is grouped under the Automation tab. Click this to reveal the four sub-modules:
 
@@ -56,14 +58,16 @@ This is the hub for creating, editing, and deleting Experiment Scripts. A "Campa
 
     * Component Assignment: Link specific Planners and Analyzers to the script.
 
-### B. Custom Step Builder (Unimplemented)
-_Access: Automation -> "Custom Step Builder"_
+### B. Custom Command Designer
+_Access: Automation -> "Custom Commands"_
 
-_Currently Unimplemented._
+The Custom Command Designer lets you define reusable, script-backed commands that can be shared across campaigns.
 
-* Concept: This tool will allow you to group multiple atomic device commands into a single "Custom Step."
+* **Custom Commands list:** Provides a table of saved custom commands, showing name, description, input summary, and output summary, with actions to refresh, edit, or delete commands.
 
-* Goal: Create reusable steps (e.g., "Standard Wash Cycle") that can be dropped into any Campaign Script with a single click, streamlining the design process.
+* **Designer:** For each custom command, you can configure metadata (name and description), define input parameters and their schemas, specify an output value schema, and author the script body with diagnostics support.
+
+Use the Custom Command Designer when you want to encapsulate common logic into reusable commands instead of repeating the same sequence of low-level device commands across multiple campaigns.
 
 ### C. Execution
 _Access: Automation -> "Execution"_
