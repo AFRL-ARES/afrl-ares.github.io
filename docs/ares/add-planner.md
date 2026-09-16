@@ -37,6 +37,16 @@ Once a planner is registered, the settings page displays several key metadata fi
 
 ---
 
+### Plugin and Remote Services
+
+Planners in ARES are also implemented as **remote services** that act as plugins to the core system:
+
+* The planner runs as an independent service (often using PyAres) and exposes a gRPC/HTTP endpoint.
+* ARES OS connects to the planner via the configured address and uses it to provide planning logic for campaigns.
+* Example planner services include custom Python planners and demo projects such as `DemoRemotePlanner` in the ARES OS repository.
+
+For architectural background and guidance on building planner plugins and remote services, see the [Developer Guide](./developer-setup.md).
+
 <video controls width="100%">
   <source src="/video/adding_planner.mp4" type="video/mp4"/>
 </video>

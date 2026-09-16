@@ -37,6 +37,16 @@ Once an analyzer is registered, the settings page displays several key metadata 
 
 ---
 
+### Plugin and Remote Services
+
+Analyzers in ARES are typically implemented as **remote services** following the platform’s plugin-first philosophy:
+
+* The analyzer runs as an independent service (often using PyAres) and exposes a gRPC/HTTP endpoint.
+* ARES OS connects to the analyzer via the configured address and treats it as a plugin.
+* Example analyzer services include custom Python analyzers and demo projects such as `DemoRemoteAnalyzer` in the ARES OS repository.
+
+For architectural background and guidance on building analyzer plugins and remote services, see the [Developer Guide](./developer-setup.md).
+
 <video controls width="100%">
   <source src="/video/add_analyzer.mp4" type="video/mp4"/>
 </video>

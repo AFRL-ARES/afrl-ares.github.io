@@ -33,6 +33,16 @@ ARES is built with a **"Plugin-First"** philosophy.
 * **ARES UI (Web Client)**: The user interface for defining campaigns, monitoring progress, and interacting with devices via a standard web browser.
 * **ARES Service (Back-End)**: The core component that hosts business logic, manages the component lifecycle of devices, planners, and analyzers, and executes campaign orchestration.
 
+### Remote Services and Demo Projects
+
+ARES’s plugin-first design encourages running devices, planners, and analyzers as **remote services**:
+
+* Devices can be exposed via remote adapters (for example, demo projects such as `DemoRemoteDevice` in the ARES OS repository).
+* Planners and analyzers are commonly implemented as Python services using PyAres and connected to ARES OS via URLs (see `DemoRemotePlanner` and `DemoRemoteAnalyzer` projects).
+* The `plugins` folder in the ARES OS solution is used to host plugin-related assets and integrations.
+
+These remote services allow you to extend ARES without modifying the core orchestration engine, keeping integrations modular and language-agnostic.
+
 ## Prerequisites/Dependencies
 
 * **For ARES OS & Plugins:** .NET 10 SDK and an IDE like Visual Studio, JetBrains Rider, or VS Code.
