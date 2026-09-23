@@ -1,6 +1,8 @@
 ---
 sidebar_position: 1
 title: Welcome to PyAres
+description: Programmatic Python wrapper utilizing gRPC and Protobuf for AFRL-ARES. Orchestrate autonomous loops, map devices, and deploy machine learning planners.
+keywords: [PyAres, self-driving lab python, gRPC lab automation, python orchestration framework, closed loop automation]
 ---
 
 # Welcome to PyAres 

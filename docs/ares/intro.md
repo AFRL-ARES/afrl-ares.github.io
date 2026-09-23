@@ -3,7 +3,7 @@ sidebar_position: 1
 title: Introduction
 ---
 
-# Welcome to ARES OS 2.0
+# ARES OS 2.0: Self-Driving Laboratory Orchestration Software
 
 **ARES OS** is a cross-platform orchestration software designed to automate the scientific method. It serves as the center piece for self-driving laboratories, closing the loop between **Execution** (Robots/Hardware), **Analysis** (Sensors/AI), and **Planning** (Decision Algorithms).
 

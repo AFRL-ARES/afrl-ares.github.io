@@ -2,6 +2,7 @@ import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useColorMode} from '@docusaurus/theme-common';
+import Head from '@docusaurus/Head';
 
 function HomepageHeader() {
   const {colorMode} = useColorMode();
@@ -25,11 +26,34 @@ function HomepageHeader() {
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
 
+  const schemaMarkup = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AFRL-ARES Ecosystem",
+  "alternateName": "Autonomous Research System Orchestration Software",
+  "operatingSystem": "Windows, Linux, macOS",
+  "applicationCategory": "DeveloperApplication",
+  "applicationSubCategory": "Self-Driving Lab Orchestration Framework",
+  "downloadUrl": "https://afrl-ares.github.io/docs/launcher/intro/",
+  "license": "MIT",
+  "provider": {
+    "@type": "GovernmentOrganization",
+    "name": "Air Force Research Laboratory (AFRL)"
+  },
+  "description": "An open-source, modular, and language-agnostic software suite built on gRPC and Protobuf for closed-loop autonomous experimentation and laboratory automation."
+  };
+
   return (
     <Layout
       title={`Home`}
       description="AFRL-ARES Organization Home">
       <HomepageHeader />
+
+      <Head>
+        <script type="application/ld+json">
+          {JSON.stringify(schemaMarkup)}
+        </script>
+      </Head>
       <main>
         <div className="container" style={{padding: '2rem 0'}}>
             <section>

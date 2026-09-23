@@ -1,6 +1,8 @@
 ---
 sidebar_position: 1
 title: Welcome to the ARES Launcher
+description: Step-by-step setup guide for the ARES Launcher. Download native or offline installers for Windows, macOS, and Linux to run self-contained self-driving lab instances.
+keywords: [ARES Launcher download, autonomous lab installer, air-gapped lab software, offline lab automation installation]
 ---
 
 import { useEffect, useState } from 'react';

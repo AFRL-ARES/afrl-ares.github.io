@@ -78,9 +78,7 @@ We use a standard GitHub Pull Request (PR) workflow.
    git push origin feat/your-feature-name
    ```
 
-5. **Open a Pull Request:** Open a PR against the `main` branch of the original AFRL-ARES repository. 
-
-Think about and determine if your changes need to be officially in the documentation. If they need to, then see [Documentation Contribution](../intro.md#Contributtions)
+5. **Open a Pull Request:** Open a PR against the `main` branch of the original AFRL-ARES repository.
 
 ### Pull Request Guidelines
 
