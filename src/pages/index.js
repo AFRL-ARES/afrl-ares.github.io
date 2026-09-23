@@ -9,6 +9,7 @@ import Link from '@docusaurus/Link';
 function HomepageHeader() {
   const { colorMode } = useColorMode();
   const isDark = colorMode === 'dark';
+  const accentColor = isDark ? '#00d2ff' : '#0052cc';
 
   return (
     <header style={{
@@ -24,7 +25,7 @@ function HomepageHeader() {
           padding: '0.25rem 0.85rem',
           borderRadius: '20px',
           backgroundColor: isDark ? 'rgba(0, 210, 255, 0.1)' : 'rgba(0, 82, 204, 0.1)',
-          color: isDark ? '#00d2ff' : '#0052cc',
+          color: accentColor,
           fontSize: '0.85rem',
           fontWeight: 'bold',
           marginBottom: '1rem',
@@ -34,7 +35,7 @@ function HomepageHeader() {
         </div>
 
         <h1 className="hero__title" style={{ fontSize: '2.75rem', fontWeight: 800, lineHeight: 1.2 }}>
-          Turn Your Hardware into an <span style={{ color: '#00d2ff' }}>Autonomous Smart Lab</span>
+          Turn Your Hardware into an <span style={{ color: accentColor }}>Autonomous Lab</span>
         </h1>
 
         <img 
@@ -49,12 +50,12 @@ function HomepageHeader() {
 
         {/* CTA Buttons */}
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
-          <Link className="button button--primary button--lg" href={useBaseUrl('/docs/launcher/intro')}>
+          <Link className="button button--primary button--lg" to="/docs/launcher/intro">
             Get Started with ARES Launcher
           </Link>
-          <Link className="button button--secondary button--lg" href="https://github.com/AFRL-ARES" target="_blank" rel="noopener noreferrer">
+          <a className="button button--secondary button--lg" href="https://github.com/AFRL-ARES" target="_blank" rel="noopener noreferrer">
             Explore GitHub
-          </Link>
+          </a>
         </div>
       </div>
     </header>
@@ -66,13 +67,41 @@ function HomepageMain() {
   const isDark = colorMode === 'dark';
   const accentColor = isDark ? '#00d2ff' : '#0052cc';
 
+  const publications = [
+    {
+      tag: 'arXiv Preprint (2604.03440)',
+      publisher: 'AFRL',
+      title: 'ARES OS 2.0: An Open-Source Ecosystem for Self-Driving Laboratories',
+      url: 'https://arxiv.org/abs/2604.03440',
+      pdfUrl: 'https://arxiv.org/pdf/2604.03440'
+    },
+    {
+      tag: 'Matter (Cell Press)',
+      publisher: 'Cell Press',
+      title: 'Autonomous Research Systems for Materials Development',
+      url: 'https://www.cell.com/matter/fulltext/S2590-2385(21)00306-4'
+    },
+    {
+      tag: 'Carbon (Elsevier)',
+      publisher: 'Elsevier',
+      title: 'Autonomous Synthesis and Optimization using the ARES Architecture',
+      url: 'https://www.sciencedirect.com/science/article/abs/pii/S0008622322006145'
+    },
+    {
+      tag: 'MRS Bulletin',
+      publisher: 'Springer / MRS',
+      title: 'Autonomous Experimentation in Materials Science & Engineering',
+      url: 'https://link.springer.com/article/10.1557/s43577-021-00051-1'
+    }
+  ];
+
   return (
     <main>
       {/* Section 1: Smart Lab Value Proposition */}
       <section style={{ padding: '4rem 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span style={{ color: '#00d2ff', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.85rem' }}>
+            <span style={{ color: accentColor, fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.85rem' }}>
               Modernize Your Research
             </span>
             <h2 style={{ fontSize: '2.2rem', marginTop: '0.5rem' }}>From Isolated Instruments to an Autonomous Research System</h2>
@@ -127,7 +156,7 @@ function HomepageMain() {
       }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span style={{ color: '#00d2ff', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.85rem' }}>
+            <span style={{ color: accentColor, fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.85rem' }}>
               Self-Driving Lab Capabilities
             </span>
             <h2 style={{ fontSize: '2.2rem', marginTop: '0.5rem' }}>Power Closed-Loop Autonomous Experimentation</h2>
@@ -213,24 +242,101 @@ function HomepageMain() {
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-            <Link className="button button--primary button--lg" href="../../docs/launcher/intro" target="_blank" rel="noopener noreferrer">
+            <Link className="button button--primary button--lg" to="/docs/launcher/intro">
               Launch with ARES Launcher
             </Link>
-            <Link className="button button--secondary button--lg" href="../../docs/ares/developer-setup" target="_blank" rel="noopener noreferrer">
+            <Link className="button button--secondary button--lg" to="/docs/ares/developer-setup">
               Explore the Architecture & Developer Setup Docs
             </Link>
-            <Link className="button button--outline button--primary button--lg" href="https://arxiv.org/abs/2604.03440" target="_blank" rel="noopener noreferrer">
-              Read the Paper
-            </Link>
           </div>
-
-          
 
           <div style={{ maxWidth: '650px', margin: '0 auto', textAlign: 'left' }}>
             <p style={{ marginBottom: '0.5rem', fontWeight: 'bold', fontSize: '0.9rem' }}>Clone the Repository:</p>
             <div style={{ backgroundColor: '#1e1e1e', color: '#f8f8f2', padding: '12px 16px', borderRadius: '6px', overflowX: 'auto', fontFamily: 'monospace' }}>
               <pre style={{ margin: 0, background: 'transparent' }}><code>git clone https://github.com/AFRL-ARES/ARES.git</code></pre>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5: Publications & Scientific Literature (2-Column Grid) */}
+      <section style={{ 
+        padding: '4rem 0', 
+        borderTop: `1px solid ${isDark ? '#003057' : '#e3e8ee'}` 
+      }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <span style={{ color: accentColor, fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.85rem' }}>
+              Read Our Results
+            </span>
+            <h2 style={{ fontSize: '2.2rem', marginTop: '0.5rem' }}>Publications & Research</h2>
+            <p style={{ maxWidth: '750px', margin: '0 auto', opacity: 0.8 }}>
+              Read some of our publications and preprints to learn how ARES OS is driving the next generation of scientific research.
+            </p>
+          </div>
+
+          {/* 2-Column Grid Layout */}
+          <div className="row" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+            {publications.map((paper, idx) => (
+              <div key={idx} className="col col--6 margin-bottom--lg">
+                <div className="card" style={{ 
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  border: `1px solid ${isDark ? '#003057' : '#e3e8ee'}`,
+                  backgroundColor: isDark ? '#001a33' : '#ffffff',
+                  padding: '1.25rem 1.5rem',
+                  borderRadius: '8px'
+                }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.6rem' }}>
+                      <span style={{ 
+                        backgroundColor: isDark ? 'rgba(0, 210, 255, 0.15)' : 'rgba(0, 82, 204, 0.1)', 
+                        color: accentColor, 
+                        padding: '0.2rem 0.6rem', 
+                        borderRadius: '4px', 
+                        fontSize: '0.75rem', 
+                        fontWeight: 'bold',
+                        fontFamily: 'var(--ifm-font-family-monospace)'
+                      }}>
+                        {paper.tag}
+                      </span>
+                      <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>{paper.publisher}</span>
+                    </div>
+
+                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', lineHeight: 1.35 }}>
+                      {paper.title}
+                    </h3>
+
+                    <p style={{ fontSize: '0.875rem', opacity: 0.85, marginBottom: '1.25rem', lineHeight: 1.45 }}>
+                      {paper.description}
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap', marginTop: 'auto' }}>
+                    <a 
+                      className="button button--secondary button--sm" 
+                      href={paper.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      Read Paper
+                    </a>
+                    {paper.pdfUrl && (
+                      <a 
+                        className="button button--outline button--secondary button--sm" 
+                        href={paper.pdfUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        Download PDF
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -248,7 +354,13 @@ export default function Home() {
     "applicationCategory": "DeveloperApplication",
     "applicationSubCategory": "Self-Driving Lab Orchestration Framework",
     "downloadUrl": "https://afrl-ares.github.io/docs/launcher/intro/",
-    "license": "MIT",
+    "license": "https://opensource.org/licenses/MIT",
+    "citation": [
+      "https://arxiv.org/abs/2604.03440",
+      "https://www.cell.com/matter/fulltext/S2590-2385(21)00306-4",
+      "https://www.sciencedirect.com/science/article/abs/pii/S0008622322006145",
+      "https://link.springer.com/article/10.1557/s43577-021-00051-1"
+    ],
     "keywords": "ARES OS 2.0, smart lab, self-driving lab, PyAres, autonomous experimentation, laboratory automation, gRPC",
     "provider": {
       "@type": "GovernmentOrganization",
