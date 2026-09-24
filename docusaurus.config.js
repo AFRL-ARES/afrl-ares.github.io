@@ -6,14 +6,26 @@ const darkCodeTheme = themes.dracula;
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AFRL-ARES',
-  tagline: 'ARES OS Ecosystem',
+  tagline: 'ARES OS Ecosystem - Autonomous Lab Orchestration',
   url: 'https://afrl-ares.github.io',
   baseUrl: '/',
+  
+  trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'AFRL-ARES',
   projectName: 'afrl-ares.github.io',
+
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'google-site-verification',
+        content: 'jzzRBlf7j5NRPxmlK_hXfdlnISQHsz3c7tov3K8hKdE',
+      },
+    },
+  ],
 
   presets: [
     [
@@ -22,9 +34,15 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          showLastUpdateTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          filename: 'sitemap.xml',
         },
       }),
     ],
@@ -33,11 +51,24 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      image: 'img/ARESLogo.png',
+
+      metadata: [
+        {
+          name: 'keywords',
+          content: 'ARES OS 2.0, PyAres, self-driving lab, smart lab, autonomous experimentation, laboratory automation, AFRL, gRPC',
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+      ],
+
       navbar: {
         logo: {
           alt: 'AFRL-ARES',
           src: '/img/BlackARESLogo.png',
-          srcDark: '/img/ARESLogo.png'
+          srcDark: '/img/ARESLogo.png',
         },
         items: [
           {

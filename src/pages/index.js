@@ -349,6 +349,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "ARES OS 2.0",
+    "image": "https://afrl-ares.github.io/img/ARESLogo/png",
     "alternateName": "AFRL-ARES Autonomous Research System",
     "operatingSystem": "Windows, Linux, macOS",
     "applicationCategory": "DeveloperApplication",
@@ -361,6 +362,11 @@ export default function Home() {
       "https://www.sciencedirect.com/science/article/abs/pii/S0008622322006145",
       "https://link.springer.com/article/10.1557/s43577-021-00051-1"
     ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
     "keywords": "ARES OS 2.0, smart lab, self-driving lab, PyAres, autonomous experimentation, laboratory automation, gRPC",
     "provider": {
       "@type": "GovernmentOrganization",
@@ -372,7 +378,8 @@ export default function Home() {
   return (
     <Layout
       title={`ARES OS 2.0 | Autonomous Smart Lab Orchestration`}
-      description="The open-source software framework for smart labs, closed-loop autonomous experimentation, and hardware orchestration. Built by AFRL.">
+      description="The open-source software framework for smart labs, closed-loop autonomous experimentation, and hardware orchestration. Built by AFRL."
+      image="img/ARESLogo.png">
       
       <Head>
         <script type="application/ld+json">

@@ -43,7 +43,7 @@ Devices provide the interface between ARES and physical hardware.
 * **Use Case:** Integrating a custom sensor, a serial device, or a specialized camera using Python drivers.
 
 # Integration Workflow
-PyAres uses a manual registration model for services to ensure reliability in complex network environments. Below we'll describe the process for a "Device" service, but the process is very similar for the other services listed under [Core Components](#core-components).
+PyAres uses a manual registration model for services to ensure reliability in complex network environments. Below we'll describe the process for a "Device" service, but the process is very similar for the other services listed under core components.
 1. **Launch Service** Start your PyAres script (for example, `python my_device.py`). It will listen on a specific address (for example, `http://localhost:7800`).
 2. **Register in ARES**
     * Navigate to the **Settings** menu in ARES OS.
