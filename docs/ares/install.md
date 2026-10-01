@@ -46,7 +46,25 @@ The ARES Launcher also supports pulling updates for your ARES system. See the [U
   dotnet dev-certs https --trust
   ```
 
-3. **Restore Dependencies and Build**
+3. **Install NPM Packages**
+  
+  ARES has some dependencies managed via NPM that will need to be installed in a fresh development environment. To accomplish this, you must first navigate to the UI project folder.
+
+  ```Bash
+  cd UI
+  ```
+
+  In this folder you should find the package.json file, this means you're in the right place. Next, install the NPM packages:
+
+  ```Bash
+  npm install
+  ```
+
+  NPM will use the packages.json file to grab and install relevant packages.
+
+4. **Restore Dependencies and Build**
+
+  Ensure you're back in the same directory as the solution file (**AresOS.slnx**) and run the following commands to restore dependencies and build your project.
 
   ```Bash
   dotnet restore
@@ -55,7 +73,7 @@ The ARES Launcher also supports pulling updates for your ARES system. See the [U
 
   Note: If initial build fails, try building a second time. The ARES project creates some required items at build time, which can cause some errors when building a fresh clone.
 
-4. **Setup the database**  
+5. **Setup the database**  
 
   a. *Configure the Database*
     - nagigate and open to `UI\appsetting.UI.json`
@@ -68,13 +86,13 @@ The ARES Launcher also supports pulling updates for your ARES system. See the [U
   dotnet run --project .\UI\UI.csproj --migrate
   ```
 
-5. **Start ARES**
+6. **Start ARES**
 
 ```Bash
 dotnet run --project .\UI\UI.csproj
 ```
 
-6. **Navigate to the UI**  
+7. **Navigate to the UI**  
 Open a browser of your choice and navigate to [https://localhost:7084](https://localhost:7084). If you've started ARES successfully, this will open the ARES Dashboard.
 
     - You can use your port of choice by editing the "ARES\UI\Properties\launchSettings.json" file. Under the "profiles"/"UI"/"applicationUrl", edit the port value to match the port you want to use, then you restart the application. ARES will then be hosted on that new URL.
